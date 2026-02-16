@@ -69,6 +69,54 @@ describe('plain text output', () => {
     expect(text).toContain('3. Step three');
   });
 
+  it('converts nested unordered lists with indentation', () => {
+    const { text } = render('- Item one\n- Item two\n  - Nested one\n  - Nested two\n- Item three');
+    expect(text).toContain('- Item one');
+    expect(text).toContain('- Item two');
+    expect(text).toContain('  - Nested one');
+    expect(text).toContain('  - Nested two');
+    expect(text).toContain('- Item three');
+  });
+
+  it('converts nested ordered lists with independent numbering', () => {
+    const { text } = render('1. First\n2. Second\n   1. Sub one\n   2. Sub two\n3. Third');
+    expect(text).toContain('1. First');
+    expect(text).toContain('2. Second');
+    expect(text).toContain('  1. Sub one');
+    expect(text).toContain('  2. Sub two');
+    expect(text).toContain('3. Third');
+  });
+
+  it('converts mixed nested lists (ol inside ul)', () => {
+    const { text } = render('- Item A\n- Item B\n  1. Numbered one\n  2. Numbered two\n- Item C');
+    expect(text).toContain('- Item A');
+    expect(text).toContain('- Item B');
+    expect(text).toContain('  1. Numbered one');
+    expect(text).toContain('  2. Numbered two');
+    expect(text).toContain('- Item C');
+  });
+
+  it('converts mixed nested lists (ul inside ol)', () => {
+    const { text } = render('1. First\n2. Second\n   - Sub A\n   - Sub B\n3. Third');
+    expect(text).toContain('1. First');
+    expect(text).toContain('2. Second');
+    expect(text).toContain('  - Sub A');
+    expect(text).toContain('  - Sub B');
+    expect(text).toContain('3. Third');
+  });
+
+  it('handles deeply nested lists (3 levels)', () => {
+    const { text } = render('- Level 1\n  - Level 2\n    - Level 3');
+    expect(text).toContain('- Level 1');
+    expect(text).toContain('  - Level 2');
+    expect(text).toContain('    - Level 3');
+  });
+
+  it('contains no HTML tags in nested list output', () => {
+    const { text } = render('- Item\n  - Nested\n    - Deep');
+    expect(text).not.toMatch(/<[^>]+>/);
+  });
+
   it('converts blockquotes', () => {
     const { text } = render('> This is a quote');
     expect(text).toContain('> This is a quote');

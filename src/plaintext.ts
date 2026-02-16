@@ -49,17 +49,8 @@ export function toPlainText(html: string): string {
     return `${label} (${url})`;
   });
 
-  // Convert ordered lists first (numbered), then remaining <li> as unordered
-  text = text.replace(/<ol[^>]*>([\s\S]*?)<\/ol>/gi, (_, content) => {
-    let i = 0;
-    return content.replace(/<li>(.*?)<\/li>/gi, (_: string, item: string) => {
-      i++;
-      return `${i}. ${stripTags(item).trim()}\n`;
-    });
-  });
-
-  // Convert remaining list items (unordered)
-  text = text.replace(/<li>(.*?)<\/li>/gi, (_, content) => `- ${stripTags(content).trim()}\n`);
+  // Convert lists (handles nesting, mixed types, indentation)
+  text = convertLists(text);
 
   // Convert <br> and <hr>
   text = text.replace(/<br\s*\/?>/gi, '\n');
@@ -110,6 +101,110 @@ export function toPlainText(html: string): string {
   text = text.trim();
 
   return text;
+}
+
+function convertLists(html: string): string {
+  return processListsInText(html, 0);
+}
+
+function processListsInText(text: string, depth: number): string {
+  const listOpenRe = /<(ul|ol)[^>]*>/i;
+  let result = '';
+  let remaining = text;
+
+  while (remaining.length > 0) {
+    const match = listOpenRe.exec(remaining);
+    if (!match) {
+      result += remaining;
+      break;
+    }
+
+    result += remaining.slice(0, match.index);
+    const tagName = match[1].toLowerCase();
+    const afterOpen = remaining.slice(match.index + match[0].length);
+    const closeIndex = findMatchingClose(afterOpen, tagName);
+
+    if (closeIndex === -1) {
+      result += remaining.slice(match.index);
+      break;
+    }
+
+    const listContent = afterOpen.slice(0, closeIndex);
+    remaining = afterOpen.slice(closeIndex + `</${tagName}>`.length);
+    result += processListItems(listContent, tagName, depth);
+  }
+
+  return result;
+}
+
+function findMatchingClose(html: string, tagName: string): number {
+  const openRe = new RegExp(`<${tagName}[^>]*>`, 'gi');
+  const closeRe = new RegExp(`</${tagName}>`, 'gi');
+  let nesting = 1;
+  let searchFrom = 0;
+
+  while (nesting > 0) {
+    openRe.lastIndex = searchFrom;
+    closeRe.lastIndex = searchFrom;
+    const openMatch = openRe.exec(html);
+    const closeMatch = closeRe.exec(html);
+
+    if (!closeMatch) return -1;
+
+    if (openMatch && openMatch.index < closeMatch.index) {
+      nesting++;
+      searchFrom = openMatch.index + openMatch[0].length;
+    } else {
+      nesting--;
+      if (nesting === 0) return closeMatch.index;
+      searchFrom = closeMatch.index + closeMatch[0].length;
+    }
+  }
+  return -1;
+}
+
+function processListItems(html: string, listType: string, depth: number): string {
+  const indent = '  '.repeat(depth);
+  let result = '';
+  let counter = 0;
+
+  const liOpenRe = /<li>/gi;
+  let liMatch: RegExpExecArray | null;
+
+  while ((liMatch = liOpenRe.exec(html)) !== null) {
+    const start = liMatch.index + liMatch[0].length;
+    const afterLiOpen = html.slice(start);
+    const closeLiIndex = findMatchingClose(afterLiOpen, 'li');
+    if (closeLiIndex === -1) continue;
+
+    const liContent = afterLiOpen.slice(0, closeLiIndex);
+    counter++;
+
+    const marker = listType === 'ol' ? `${counter}.` : '-';
+
+    // Separate text content from nested sublists
+    const nestedListRe = /<(ul|ol)[^>]*>/i;
+    const nestedMatch = nestedListRe.exec(liContent);
+
+    if (nestedMatch) {
+      const textPart = liContent.slice(0, nestedMatch.index);
+      const cleanText = stripTags(textPart).trim();
+      if (cleanText) {
+        result += `${indent}${marker} ${cleanText}\n`;
+      }
+      const nestedPart = liContent.slice(nestedMatch.index);
+      result += processListsInText(nestedPart, depth + 1);
+    } else {
+      const cleanText = stripTags(liContent).trim();
+      if (cleanText) {
+        result += `${indent}${marker} ${cleanText}\n`;
+      }
+    }
+
+    liOpenRe.lastIndex = start + closeLiIndex + '</li>'.length;
+  }
+
+  return result;
 }
 
 function stripTags(html: string): string {

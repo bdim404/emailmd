@@ -115,6 +115,49 @@ Hello`;
     expect(html).toMatch(/blockquote.*blockquote/s);
   });
 
+  it('renders unordered list with controlled spacing', () => {
+    const { html } = render('- Item one\n- Item two');
+    expect(html).toContain('<ul');
+    expect(html).toContain('<li');
+    expect(html).toContain('padding-left');
+  });
+
+  it('renders ordered list with controlled spacing', () => {
+    const { html } = render('1. First\n2. Second');
+    expect(html).toContain('<ol');
+    expect(html).toContain('<li');
+    expect(html).toContain('padding-left');
+  });
+
+  it('renders nested unordered lists', () => {
+    const { html } = render('- Item one\n- Item two\n  - Nested one\n  - Nested two\n- Item three');
+    expect(html).toContain('Item one');
+    expect(html).toContain('Nested one');
+    expect(html).toMatch(/<ul[^>]*>[\s\S]*<ul[^>]*>/);
+  });
+
+  it('renders nested ordered lists', () => {
+    const { html } = render('1. First\n2. Second\n   1. Sub one\n   2. Sub two\n3. Third');
+    expect(html).toContain('First');
+    expect(html).toContain('Sub one');
+    expect(html).toMatch(/<ol[^>]*>[\s\S]*<ol[^>]*>/);
+  });
+
+  it('renders mixed nested lists (ul inside ol)', () => {
+    const { html } = render('1. First\n2. Second\n   - Sub A\n   - Sub B\n3. Third');
+    expect(html).toContain('First');
+    expect(html).toContain('Sub A');
+    expect(html).toMatch(/<ol[^>]*>[\s\S]*<ul[^>]*>/);
+  });
+
+  it('renders deeply nested lists without MJML errors', () => {
+    const { html } = render('- Level 1\n  - Level 2\n    - Level 3');
+    expect(html).toContain('Level 1');
+    expect(html).toContain('Level 2');
+    expect(html).toContain('Level 3');
+    expect(html).not.toMatch(/<mj-/);
+  });
+
   it('returns extracted frontmatter in meta', () => {
     const md = `---
 preheader: Preview
