@@ -68,7 +68,6 @@ Override theme values and set metadata per-email using YAML frontmatter:
 ---
 preheader: "Don't miss our biggest sale"
 logo: https://example.com/logo.png
-footer: "**Acme Corp** · [Unsubscribe](https://example.com/unsub)"
 brand_color: "#e11d48"
 button_color: "#059669"
 ---
@@ -76,6 +75,10 @@ button_color: "#059669"
 # Sale Starts Now
 
 Everything is 50% off this weekend.
+
+::: footer
+**Acme Corp** · [Unsubscribe](https://example.com/unsub)
+:::
 ```
 
 ## Directives
@@ -105,6 +108,14 @@ The Acme Team
 :::
 ```
 
+### Footer
+
+```markdown
+::: footer
+**Acme Corp** · [Unsubscribe](https://example.com/unsub) · [Preferences](https://example.com/prefs)
+:::
+```
+
 ## Buttons
 
 ```markdown
@@ -120,10 +131,10 @@ The Acme Team
 Control the email's outer structure:
 
 ```typescript
-// Default — gray background, supports logo + footer
+// Default — gray background, supports logo
 render(md);
 
-// Plain — white background, no logo/footer
+// Plain — white background, no logo
 render(md, { wrapper: 'plain' });
 
 // Naked — minimal, no background
@@ -172,9 +183,19 @@ Renders markdown to email-safe HTML.
 {
   html: string;
   text: string;
-  meta: { preheader?: string; logo?: string; footer?: string; [key: string]: unknown };
+  meta: { preheader?: string; logo?: string; [key: string]: unknown };
 }
 ```
+
+## Playground
+
+Spin up a local playground to write markdown and preview the rendered email in real time:
+
+```bash
+npm run playground
+```
+
+Opens a browser UI at `http://localhost:3000` with a split-pane editor — markdown on the left, live preview on the right. You can switch wrappers and load any of the bundled examples from the dropdowns.
 
 ## Built on MJML
 

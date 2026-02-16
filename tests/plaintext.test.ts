@@ -115,13 +115,9 @@ custom_key: custom_value
     expect(meta).toEqual({});
   });
 
-  it('returns parsed footer in meta', () => {
-    const md = `---
-footer: "**Acme Corp**"
----
-
-# Hello`;
-    const { meta } = render(md);
-    expect(meta.footer).toContain('<strong>Acme Corp</strong>');
+  it('preserves footer directive content in plain text', () => {
+    const { text } = render('# Hello\n\n::: footer\n**Acme Corp**\n:::');
+    expect(text).toContain('Acme Corp');
+    expect(text).not.toContain('EMAILMD');
   });
 });

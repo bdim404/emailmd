@@ -32,13 +32,13 @@ describe('default wrapper', () => {
   });
 
   it('renders footer with markdown bold', () => {
-    const md = '---\nfooter: "**Acme Corp**"\n---\n\n# Hello';
+    const md = '# Hello\n\n::: footer\n**Acme Corp**\n:::';
     const { html } = render(md);
     expect(html).toContain('<strong>Acme Corp</strong>');
   });
 
   it('renders footer with markdown links', () => {
-    const md = '---\nfooter: "[Unsubscribe](https://example.com/unsub)"\n---\n\n# Hello';
+    const md = '# Hello\n\n::: footer\n[Unsubscribe](https://example.com/unsub)\n:::';
     const { html } = render(md);
     expect(html).toContain('https://example.com/unsub');
     expect(html).toContain('Unsubscribe');
@@ -64,11 +64,10 @@ describe('plain wrapper', () => {
     expect(html).toContain('Preview text');
   });
 
-  it('ignores logo and footer frontmatter', () => {
-    const md = '---\nlogo: https://example.com/logo.png\nfooter: "Footer text"\n---\n\n# Hello';
+  it('ignores logo frontmatter', () => {
+    const md = '---\nlogo: https://example.com/logo.png\n---\n\n# Hello';
     const { html } = render(md, { wrapper: 'plain' });
     expect(html).not.toContain('example.com/logo.png');
-    expect(html).not.toContain('Footer text');
   });
 
   it('preserves content rendering', () => {

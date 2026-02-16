@@ -1,7 +1,6 @@
 ---
 preheader: "Your weekly digest from Acme — new features, tips, and more"
 logo: https://placehold.co/150x40/5B4FE9/white?text=ACME
-footer: "**Acme Corp** · 123 Main St, San Francisco, CA · [Unsubscribe](https://example.com/unsub) · [Preferences](https://example.com/prefs)"
 ---
 
 # Your Weekly Update
@@ -50,4 +49,8 @@ Join us next Thursday for a live walkthrough of the new features.
 ::: centered
 Thanks for being part of the Acme community.
 We build this for you.
+:::
+
+::: footer
+**Acme Corp** · 123 Main St, San Francisco, CA · [Unsubscribe](https://example.com/unsub) · [Preferences](https://example.com/prefs)
 :::

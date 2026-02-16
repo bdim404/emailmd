@@ -1,7 +1,6 @@
 ---
 preheader: Weekly update from Acme
 logo: https://example.com/logo.png
-footer: "**Acme Corp** | [Unsubscribe](https://example.com/unsub)"
 ---
 
 # This Week at Acme
@@ -15,3 +14,7 @@ Early access is now available for Pro plan members.
 Check out the latest improvements below.
 
 [See What's New](https://example.com/changelog){button}
+
+::: footer
+**Acme Corp** | [Unsubscribe](https://example.com/unsub)
+:::

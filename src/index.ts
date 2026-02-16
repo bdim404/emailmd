@@ -30,11 +30,10 @@ export interface RenderResult {
   html: string;
   /** Plain text version for the text/plain MIME part. */
   text: string;
-  /** Extracted frontmatter metadata (preheader, logo, footer, and any custom keys). */
+  /** Extracted frontmatter metadata (preheader, logo, and any custom keys). */
   meta: {
     preheader?: string;
     logo?: string;
-    footer?: string;
     [key: string]: unknown;
   };
 }
@@ -66,22 +65,13 @@ export function render(markdown: string, options?: RenderOptions): RenderResult 
 
   const wrapperFn = resolveWrapper(options?.wrapper);
 
-  const footerHtml = meta.footer
-    ? parseMarkdown(String(meta.footer)).trim().replace(/^<p>(.*)<\/p>$/s, '$1')
-    : undefined;
-
   const wrapperMeta: WrapperMeta = {
     preheader: meta.preheader as string | undefined,
     logo: meta.logo as string | undefined,
-    footer: footerHtml,
   };
 
   const html = renderMjml(segments, theme, wrapperMeta, wrapperFn);
   const text = toPlainText(parsedHtml);
 
-  // Build public meta: include all frontmatter keys, override footer with parsed version
-  const publicMeta: RenderResult['meta'] = { ...meta };
-  if (footerHtml !== undefined) publicMeta.footer = footerHtml;
-
-  return { html, text, meta: publicMeta };
+  return { html, text, meta: { ...meta } };
 }

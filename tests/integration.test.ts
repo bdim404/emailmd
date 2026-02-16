@@ -59,7 +59,7 @@ describe('integration: full email with directives and buttons', () => {
 
 const newsletterFixture = readFileSync(resolve(__dirname, 'fixtures/newsletter.md'), 'utf-8');
 
-describe('integration: default wrapper with logo and footer', () => {
+describe('integration: default wrapper with logo and footer directive', () => {
   const { html } = render(newsletterFixture);
 
   it('produces a complete HTML document', () => {
@@ -70,11 +70,11 @@ describe('integration: default wrapper with logo and footer', () => {
     expect(html).toContain('https://example.com/logo.png');
   });
 
-  it('renders the footer with markdown bold', () => {
+  it('renders the footer directive with markdown bold', () => {
     expect(html).toContain('<strong>Acme Corp</strong>');
   });
 
-  it('renders the footer with link', () => {
+  it('renders the footer directive with link', () => {
     expect(html).toContain('https://example.com/unsub');
     expect(html).toContain('Unsubscribe');
   });

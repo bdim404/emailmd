@@ -2,7 +2,6 @@
 preheader: "Introducing Acme 2.0 — faster, smarter, better"
 logo: https://placehold.co/150x40/5B4FE9/white?text=ACME
 button_color: "#059669"
-footer: "**Acme Corp** · [Unsubscribe](https://example.com/unsub)"
 ---
 
 # Acme 2.0 Is Here
@@ -34,4 +33,8 @@ Acme 2.0 is rolling out to all users today. No migration needed — just log in 
 
 ::: centered
 Questions? Reply to this email or visit our [help center](https://example.com/help).
+:::
+
+::: footer
+**Acme Corp** · [Unsubscribe](https://example.com/unsub)
 :::

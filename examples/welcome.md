@@ -1,7 +1,6 @@
 ---
 preheader: "Welcome to Acme! Here's how to get started."
 logo: https://placehold.co/150x40/5B4FE9/white?text=ACME
-footer: "**Acme Corp** · [Unsubscribe](https://example.com/unsub)"
 ---
 
 # Welcome to Acme!
@@ -33,4 +32,8 @@ Our support team is here for you. We typically respond within a few hours.
 We can't wait to see what you build.
 
 The Acme Team
+:::
+
+::: footer
+**Acme Corp** · [Unsubscribe](https://example.com/unsub)
 :::

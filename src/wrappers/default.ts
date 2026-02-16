@@ -15,20 +15,11 @@ export function defaultWrapper(segments: Segment[], theme: Theme, meta?: Wrapper
     </mj-section>`
     : '';
 
-  const footerSection = meta?.footer
-    ? `<mj-section padding="24px 32px 32px 32px">
-      <mj-column>
-        <mj-text align="center" font-size="13px" color="#9ca3af" line-height="1.5">${meta.footer}</mj-text>
-      </mj-column>
-    </mj-section>`
-    : '';
-
   return `<mjml>
   ${head}
   <mj-body background-color="${theme.backgroundColor}" width="${theme.contentWidth}">
     ${logoSection}
     ${body}
-    ${footerSection}
   </mj-body>
 </mjml>`;
 }

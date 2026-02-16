@@ -5,7 +5,6 @@ import type { Segment } from './segmenter.js';
 export interface WrapperMeta {
   preheader?: string;
   logo?: string;
-  footer?: string;
 }
 
 export type WrapperFn = (segments: Segment[], theme: Theme, meta?: WrapperMeta) => string;
@@ -36,7 +35,7 @@ function renderTextSegment(content: string, theme: Theme): string {
 }
 
 function renderCalloutSegment(content: string, theme: Theme): string {
-  return `<mj-section padding="8px 32px">
+  return `<mj-section background-color="${theme.contentColor}" padding="8px 32px">
       <mj-column background-color="${theme.cardColor}" border-radius="8px" padding="20px 24px">
         <mj-text font-size="${theme.fontSize}" color="${theme.bodyColor}" line-height="${theme.lineHeight}">${content}</mj-text>
       </mj-column>
@@ -44,7 +43,7 @@ function renderCalloutSegment(content: string, theme: Theme): string {
 }
 
 function renderCenteredSegment(content: string, theme: Theme): string {
-  return `<mj-section padding="8px 32px">
+  return `<mj-section background-color="${theme.contentColor}" padding="8px 32px">
       <mj-column>
         <mj-text align="center" font-size="${theme.fontSize}" color="${theme.bodyColor}">${content}</mj-text>
       </mj-column>
@@ -52,9 +51,17 @@ function renderCenteredSegment(content: string, theme: Theme): string {
 }
 
 function renderHighlightSegment(content: string, theme: Theme): string {
-  return `<mj-section padding="8px 32px">
+  return `<mj-section background-color="${theme.contentColor}" padding="8px 32px">
       <mj-column background-color="${theme.brandColor}" border-radius="8px" padding="20px 24px">
         <mj-text font-size="${theme.fontSize}" color="#ffffff" font-weight="600">${content}</mj-text>
+      </mj-column>
+    </mj-section>`;
+}
+
+function renderFooterSegment(content: string): string {
+  return `<mj-section padding="24px 32px 32px 32px">
+      <mj-column>
+        <mj-text align="center" font-size="13px" color="#9ca3af" line-height="1.5">${content}</mj-text>
       </mj-column>
     </mj-section>`;
 }
@@ -80,7 +87,7 @@ function renderButtonSegment(segment: Segment, theme: Theme): string {
     textColor = theme.buttonTextColor;
   }
 
-  return `<mj-section padding="8px 32px">
+  return `<mj-section background-color="${theme.contentColor}" padding="8px 32px">
       <mj-column>
         <mj-button background-color="${bgColor}" color="${textColor}" font-size="16px" font-weight="600" border-radius="8px" inner-padding="14px 32px" ${border} href="${attrs.href}">${attrs.text}</mj-button>
       </mj-column>
@@ -97,6 +104,8 @@ function segmentToMjml(segment: Segment, theme: Theme): string {
       return renderCenteredSegment(segment.content, theme);
     case 'highlight':
       return renderHighlightSegment(segment.content, theme);
+    case 'footer':
+      return renderFooterSegment(segment.content);
     case 'button':
       return renderButtonSegment(segment, theme);
   }
