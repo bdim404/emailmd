@@ -41,6 +41,12 @@ describe('frontmatterToThemeOverrides', () => {
     });
   });
 
+  it('maps button_color to buttonColor theme override', () => {
+    const meta = { button_color: '#dc2626' };
+    const overrides = frontmatterToThemeOverrides(meta);
+    expect(overrides.buttonColor).toBe('#dc2626');
+  });
+
   it('ignores unknown keys', () => {
     const meta = { preheader: 'text', unknown_key: 'value' };
     const overrides = frontmatterToThemeOverrides(meta);

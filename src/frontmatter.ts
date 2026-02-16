@@ -11,10 +11,14 @@ const themeKeys: Set<string> = new Set([
   'heading_color',
   'body_color',
   'background_color',
+  'content_color',
   'card_color',
   'button_color',
   'button_text_color',
   'font_family',
+  'font_size',
+  'line_height',
+  'content_width',
 ]);
 
 function snakeToCamel(s: string): string {

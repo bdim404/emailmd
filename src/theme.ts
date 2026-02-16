@@ -3,21 +3,29 @@ export interface Theme {
   headingColor: string;
   bodyColor: string;
   backgroundColor: string;
+  contentColor: string;
   cardColor: string;
   buttonColor: string;
   buttonTextColor: string;
   fontFamily: string;
+  fontSize: string;
+  lineHeight: string;
+  contentWidth: string;
 }
 
 export const defaultTheme: Theme = {
-  brandColor: '#4A90D9',
-  headingColor: '#1A1A2E',
-  bodyColor: '#333333',
-  backgroundColor: '#F4F4F7',
-  cardColor: '#FFFFFF',
-  buttonColor: '#4A90D9',
-  buttonTextColor: '#FFFFFF',
-  fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
+  brandColor: '#5B4FE9',
+  headingColor: '#111827',
+  bodyColor: '#374151',
+  backgroundColor: '#f4f4f5',
+  contentColor: '#ffffff',
+  cardColor: '#f3f4f6',
+  buttonColor: '#5B4FE9',
+  buttonTextColor: '#ffffff',
+  fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+  fontSize: '16px',
+  lineHeight: '1.6',
+  contentWidth: '600px',
 };
 
 export function mergeTheme(overrides?: Partial<Theme>): Theme {
