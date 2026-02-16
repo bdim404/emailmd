@@ -2,7 +2,15 @@ import mjml2html from 'mjml';
 import type { Theme } from './theme.js';
 import type { Segment } from './segmenter.js';
 
-function buildHead(theme: Theme, preheader?: string): string {
+export interface WrapperMeta {
+  preheader?: string;
+  logo?: string;
+  footer?: string;
+}
+
+export type WrapperFn = (segments: Segment[], theme: Theme, meta?: WrapperMeta) => string;
+
+export function buildHead(theme: Theme, preheader?: string): string {
   return `<mj-head>
     <mj-attributes>
       <mj-all font-family="${theme.fontFamily}" />
@@ -94,19 +102,12 @@ function segmentToMjml(segment: Segment, theme: Theme): string {
   }
 }
 
-function buildMjmlDocument(segments: Segment[], theme: Theme, preheader?: string): string {
-  const head = buildHead(theme, preheader);
-  const body = segments.map((s) => segmentToMjml(s, theme)).join('\n    ');
-  return `<mjml>
-  ${head}
-  <mj-body background-color="${theme.backgroundColor}" width="${theme.contentWidth}">
-    ${body}
-  </mj-body>
-</mjml>`;
+export function segmentsToMjml(segments: Segment[], theme: Theme): string {
+  return segments.map((s) => segmentToMjml(s, theme)).join('\n    ');
 }
 
-export function renderMjml(segments: Segment[], theme: Theme, preheader?: string): string {
-  const mjmlDoc = buildMjmlDocument(segments, theme, preheader);
+export function renderMjml(segments: Segment[], theme: Theme, meta: WrapperMeta, wrapper: WrapperFn): string {
+  const mjmlDoc = wrapper(segments, theme, meta);
   const { html, errors } = mjml2html(mjmlDoc);
   if (errors.length > 0) {
     console.warn('MJML compilation warnings:', errors);

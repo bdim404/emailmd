@@ -56,3 +56,67 @@ describe('integration: full email with directives and buttons', () => {
     expect(html).not.toContain('EMAILMD:');
   });
 });
+
+const newsletterFixture = readFileSync(resolve(__dirname, 'fixtures/newsletter.md'), 'utf-8');
+
+describe('integration: default wrapper with logo and footer', () => {
+  const html = render(newsletterFixture);
+
+  it('produces a complete HTML document', () => {
+    expect(html).toContain('<!doctype html>');
+  });
+
+  it('renders the logo image', () => {
+    expect(html).toContain('https://example.com/logo.png');
+  });
+
+  it('renders the footer with markdown bold', () => {
+    expect(html).toContain('<strong>Acme Corp</strong>');
+  });
+
+  it('renders the footer with link', () => {
+    expect(html).toContain('https://example.com/unsub');
+    expect(html).toContain('Unsubscribe');
+  });
+
+  it('renders the preheader', () => {
+    expect(html).toContain('Weekly update from Acme');
+  });
+
+  it('renders the content', () => {
+    expect(html).toContain('This Week at Acme');
+    expect(html).toContain('shipping new features');
+  });
+
+  it('contains no MJML tags in output', () => {
+    expect(html).not.toMatch(/<mj-/);
+  });
+});
+
+const transactionalFixture = readFileSync(resolve(__dirname, 'fixtures/transactional.md'), 'utf-8');
+
+describe('integration: plain wrapper', () => {
+  const html = render(transactionalFixture, { wrapper: 'plain' });
+
+  it('produces a complete HTML document', () => {
+    expect(html).toContain('<!doctype html>');
+  });
+
+  it('renders content', () => {
+    expect(html).toContain('Order Confirmed');
+    expect(html).toContain('#12345');
+  });
+
+  it('renders the preheader', () => {
+    expect(html).toContain('Your order has been confirmed');
+  });
+
+  it('renders the button', () => {
+    expect(html).toContain('View Order');
+    expect(html).toContain('https://example.com/orders/12345');
+  });
+
+  it('contains no MJML tags in output', () => {
+    expect(html).not.toMatch(/<mj-/);
+  });
+});
