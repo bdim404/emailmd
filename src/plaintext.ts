@@ -9,6 +9,7 @@ import {
   MARKER_HEADER_CLOSE,
   MARKER_FOOTER_OPEN,
   MARKER_FOOTER_CLOSE,
+  MARKER_HERO_CLOSE,
 } from './constants.js';
 
 /**
@@ -29,6 +30,8 @@ export function toPlainText(html: string): string {
   text = text.replace(new RegExp(escapeRegExp(MARKER_HEADER_CLOSE), 'g'), '');
   text = text.replace(new RegExp(escapeRegExp(MARKER_FOOTER_OPEN), 'g'), '');
   text = text.replace(new RegExp(escapeRegExp(MARKER_FOOTER_CLOSE), 'g'), '');
+  text = text.replace(/<!--EMAILMD:HERO_OPEN url="[^"]*"-->/g, '');
+  text = text.replace(new RegExp(escapeRegExp(MARKER_HERO_CLOSE), 'g'), '');
 
   // Convert buttons: <p><a href="url" button="">Text</a></p> → Text: url
   // Handles both single and multiple buttons in one paragraph

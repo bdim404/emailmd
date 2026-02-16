@@ -177,6 +177,15 @@ function renderImageSegment(segment: Segment, theme: Theme): string {
     </mj-section>`;
 }
 
+function renderHeroSegment(segment: Segment, theme: Theme): string {
+  const url = segment.attrs?.url || '';
+  return `<mj-section background-url="${url}" background-size="cover" background-repeat="no-repeat" padding="40px 32px">
+      <mj-column>
+        <mj-text align="center" color="${theme.buttonTextColor}">${segment.content}</mj-text>
+      </mj-column>
+    </mj-section>`;
+}
+
 function renderTableSegment(segment: Segment, theme: Theme): string {
   let tableHtml = segment.content;
 
@@ -236,6 +245,8 @@ function segmentToMjml(segment: Segment, theme: Theme): string {
       return renderImageSegment(segment, theme);
     case 'table':
       return renderTableSegment(segment, theme);
+    case 'hero':
+      return renderHeroSegment(segment, theme);
   }
 }
 

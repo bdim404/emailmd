@@ -9,9 +9,10 @@ import {
   MARKER_HEADER_CLOSE,
   MARKER_FOOTER_OPEN,
   MARKER_FOOTER_CLOSE,
+  MARKER_HERO_CLOSE,
 } from './constants.js';
 
-export type SegmentType = 'text' | 'callout' | 'centered' | 'highlight' | 'header' | 'footer' | 'button' | 'button-group' | 'image' | 'hr' | 'table';
+export type SegmentType = 'text' | 'callout' | 'centered' | 'highlight' | 'header' | 'footer' | 'button' | 'button-group' | 'image' | 'hr' | 'table' | 'hero';
 
 export interface Segment {
   type: SegmentType;
@@ -169,17 +170,31 @@ function splitOnImages(segments: Segment[]): Segment[] {
   return result;
 }
 
+const HERO_OPEN_RE = /<!--EMAILMD:HERO_OPEN url="([^"]*)"-->/;
+
 function splitOnDirectives(html: string): Segment[] {
   const segments: Segment[] = [];
   let remaining = html;
 
   while (remaining.length > 0) {
-    let earliest: { pos: number; type: SegmentType; open: string; close: string } | null = null;
+    let earliest: { pos: number; type: SegmentType; openLen: number; close: string; attrs?: Record<string, string> } | null = null;
     for (const pair of DIRECTIVE_PAIRS) {
       const pos = remaining.indexOf(pair.open);
       if (pos !== -1 && (earliest === null || pos < earliest.pos)) {
-        earliest = { pos, ...pair };
+        earliest = { pos, type: pair.type, openLen: pair.open.length, close: pair.close };
       }
+    }
+
+    // Check hero open marker (regex-based, competes for earliest position)
+    const heroMatch = HERO_OPEN_RE.exec(remaining);
+    if (heroMatch && (earliest === null || heroMatch.index < earliest.pos)) {
+      earliest = {
+        pos: heroMatch.index,
+        type: 'hero',
+        openLen: heroMatch[0].length,
+        close: MARKER_HERO_CLOSE,
+        attrs: { url: heroMatch[1] },
+      };
     }
 
     if (!earliest) {
@@ -194,7 +209,7 @@ function splitOnDirectives(html: string): Segment[] {
       segments.push({ type: 'text', content: before });
     }
 
-    const afterOpen = remaining.slice(earliest.pos + earliest.open.length);
+    const afterOpen = remaining.slice(earliest.pos + earliest.openLen);
     const closePos = afterOpen.indexOf(earliest.close);
     if (closePos === -1) {
       segments.push({ type: 'text', content: remaining.slice(earliest.pos) });
@@ -202,7 +217,11 @@ function splitOnDirectives(html: string): Segment[] {
     }
 
     const innerContent = afterOpen.slice(0, closePos);
-    segments.push({ type: earliest.type, content: innerContent });
+    const segment: Segment = { type: earliest.type, content: innerContent };
+    if (earliest.attrs) {
+      segment.attrs = earliest.attrs;
+    }
+    segments.push(segment);
 
     remaining = afterOpen.slice(closePos + earliest.close.length);
   }

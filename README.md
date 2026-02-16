@@ -92,6 +92,19 @@ Content rendered above the main body area — typically used for a logo or brand
 :::
 ```
 
+### Hero
+
+A full-width section with a background image and overlaid text — typically used for a hero banner:
+
+```markdown
+::: hero https://example.com/hero.jpg
+# Welcome aboard
+Get started with your new account today.
+:::
+```
+
+Text is centered and rendered in white for contrast against the background image. MJML handles Outlook VML fallbacks automatically.
+
 ### Callout
 
 ```markdown

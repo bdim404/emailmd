@@ -33,6 +33,36 @@ describe('centered directive', () => {
   });
 });
 
+describe('hero directive', () => {
+  it('renders hero with background image', () => {
+    const { html } = render('::: hero https://example.com/hero.jpg\n# Welcome\nGet started today!\n:::');
+    expect(html).toContain('Welcome');
+    expect(html).toContain('Get started today!');
+    expect(html).toContain('https://example.com/hero.jpg');
+  });
+
+  it('renders centered white text over background', () => {
+    const { html } = render('::: hero https://example.com/bg.png\nOverlay text\n:::');
+    expect(html).toContain('Overlay text');
+    // Default buttonTextColor is #fafafa
+    expect(html).toContain('#fafafa');
+  });
+
+  it('renders markdown inside hero', () => {
+    const { html } = render('::: hero https://example.com/hero.jpg\n**Bold** and [a link](https://example.com)\n:::');
+    expect(html).toContain('<strong>Bold</strong>');
+    expect(html).toContain('href="https://example.com"');
+  });
+
+  it('strips hero markers in plain text output', () => {
+    const { text } = render('::: hero https://example.com/hero.jpg\n# Welcome\nGet started today!\n:::');
+    expect(text).toContain('WELCOME');
+    expect(text).toContain('Get started today!');
+    expect(text).not.toContain('EMAILMD');
+    expect(text).not.toContain('hero.jpg');
+  });
+});
+
 describe('multiple directives', () => {
   it('renders multiple directives in sequence', () => {
     const md = `::: callout

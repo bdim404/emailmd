@@ -2,13 +2,11 @@
 preheader: "Welcome to Acme! Here's how to get started."
 ---
 
-::: header
-![Acme](https://placehold.co/150x50/5B4FE9/ffffff?text=Acme){width="150"}
-:::
-
+::: hero https://placehold.co/600x250/5B4FE9/ffffff?text=+
 # Welcome to Acme! :wave:
 
-We're thrilled to have you on board. You've just joined thousands of teams who use Acme to get things done faster.
+We're thrilled to have you on board.
+:::
 
 Here's a quick guide to help you hit the ground running.
 
