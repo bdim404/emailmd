@@ -196,6 +196,37 @@ Control column alignment using colons in the separator row:
 
 Tables are automatically styled with theme colors — header rows are bold with a bottom border, and body rows have subtle separators.
 
+## Inline HTML
+
+Raw HTML tags pass through to the email output, following the [CommonMark spec](https://spec.commonmark.org/0.31.2/#raw-html). Use inline HTML for styling that markdown doesn't cover:
+
+```markdown
+This is <span style="color:red">red text</span> in a paragraph.
+
+H<sub>2</sub>O and E=mc<sup>2</sup>
+
+<u>Underlined text</u> for emphasis.
+```
+
+HTML blocks work for standalone elements:
+
+```markdown
+<div style="text-align:center; padding: 16px;">
+  Custom centered block
+</div>
+```
+
+Inline HTML mixes freely with markdown syntax:
+
+```markdown
+**<span style="color:blue">Bold and blue</span>**
+
+- List item with <mark>highlighted text</mark>
+- Normal list item
+```
+
+In the plain text output, HTML tags are stripped and only the text content is preserved.
+
 ## Wrappers
 
 Control the email's outer structure:
