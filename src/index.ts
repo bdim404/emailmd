@@ -1,7 +1,7 @@
 export type { Theme } from './theme.js';
 export type { WrapperFn, WrapperMeta } from './mjml.js';
 export type { Segment, SegmentType } from './segmenter.js';
-export { defaultTheme, mergeTheme } from './theme.js';
+export { defaultTheme, lightTheme, darkTheme, mergeTheme } from './theme.js';
 export { extractFrontmatter, frontmatterToThemeOverrides } from './frontmatter.js';
 export { buildHead, segmentsToMjml } from './mjml.js';
 export { defaultWrapper } from './wrappers/default.js';

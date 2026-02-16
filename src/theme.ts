@@ -13,7 +13,26 @@ export interface Theme {
   contentWidth: string;
 }
 
-export const defaultTheme: Theme = {
+const sharedTypography = {
+  fontFamily: "Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
+  fontSize: '16px',
+  lineHeight: '1.6',
+  contentWidth: '600px',
+};
+
+export const lightTheme: Theme = {
+  brandColor: '#18181b',
+  headingColor: '#09090b',
+  bodyColor: '#71717a',
+  backgroundColor: '#fafafa',
+  contentColor: '#ffffff',
+  cardColor: '#f4f4f5',
+  buttonColor: '#18181b',
+  buttonTextColor: '#fafafa',
+  ...sharedTypography,
+};
+
+export const darkTheme: Theme = {
   brandColor: '#fafafa',
   headingColor: '#fafafa',
   bodyColor: '#a1a1aa',
@@ -22,11 +41,10 @@ export const defaultTheme: Theme = {
   cardColor: '#27272a',
   buttonColor: '#fafafa',
   buttonTextColor: '#18181b',
-  fontFamily: "Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
-  fontSize: '16px',
-  lineHeight: '1.6',
-  contentWidth: '600px',
+  ...sharedTypography,
 };
+
+export const defaultTheme: Theme = { ...lightTheme };
 
 export function mergeTheme(overrides?: Partial<Theme>): Theme {
   if (!overrides) return { ...defaultTheme };

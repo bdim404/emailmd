@@ -46,7 +46,7 @@ describe('default wrapper', () => {
 
   it('omits footer section when not provided', () => {
     const { html } = render('# Hello');
-    expect(html).not.toContain('#9ca3af');
+    expect(html).not.toContain('font-size="13px"');
   });
 });
 

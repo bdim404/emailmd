@@ -1,7 +1,7 @@
 import { createServer, type IncomingMessage } from 'node:http';
 import { readFileSync, readdirSync } from 'node:fs';
 import { resolve, basename } from 'node:path';
-import { render } from '../src/index.js';
+import { render, darkTheme } from '../src/index.js';
 
 const PORT = Number(process.env.PORT) || 3000;
 const EXAMPLES_DIR = resolve(import.meta.dirname, '../examples');
@@ -31,9 +31,12 @@ const server = createServer(async (req, res) => {
 
     if (req.method === 'POST' && req.url === '/render') {
       const body = await readBody(req);
-      const { markdown, wrapper } = JSON.parse(body);
+      const { markdown, wrapper, theme: themeName } = JSON.parse(body);
       try {
-        const result = render(markdown, wrapper ? { wrapper } : undefined);
+        const result = render(markdown, {
+          ...(wrapper ? { wrapper } : {}),
+          ...(themeName === 'dark' ? { theme: darkTheme } : {}),
+        });
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify(result));
       } catch (err) {
@@ -255,6 +258,12 @@ function getHtml(): string {
 <header>
   <h1>EMAIL.md playground</h1>
   <div class="controls">
+    <label>Theme
+      <select id="theme-select">
+        <option value="">Light</option>
+        <option value="dark">Dark</option>
+      </select>
+    </label>
     <label>Wrapper
       <select id="wrapper-select">
         <option value="">default</option>
@@ -299,6 +308,7 @@ function getHtml(): string {
   const preview = document.getElementById('preview');
   const htmlOutput = document.getElementById('html-output');
   const textOutput = document.getElementById('text-output');
+  const themeSelect = document.getElementById('theme-select');
   const wrapperSelect = document.getElementById('wrapper-select');
   const exampleSelect = document.getElementById('example-select');
 
@@ -320,6 +330,7 @@ function getHtml(): string {
   }
 
   input.addEventListener('input', scheduleRender);
+  themeSelect.addEventListener('change', renderPreview);
   wrapperSelect.addEventListener('change', renderPreview);
 
   async function renderPreview() {
@@ -338,6 +349,7 @@ function getHtml(): string {
         body: JSON.stringify({
           markdown,
           wrapper: wrapperSelect.value || undefined,
+          theme: themeSelect.value || undefined,
         }),
       });
 

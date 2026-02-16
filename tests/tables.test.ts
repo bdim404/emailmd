@@ -68,7 +68,7 @@ describe('table support', () => {
 
     it('uses theme colors', () => {
       const { html } = render(SIMPLE_TABLE);
-      expect(html).toContain('#a1a1aa'); // default bodyColor
+      expect(html).toContain('#71717a'); // default bodyColor
     });
   });
 

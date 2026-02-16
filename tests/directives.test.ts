@@ -5,7 +5,7 @@ describe('callout directive', () => {
   it('renders callout with cardColor background', () => {
     const { html } = render('::: callout\nHello from callout\n:::');
     expect(html).toContain('Hello from callout');
-    expect(html).toContain('#27272a'); // default cardColor
+    expect(html).toContain('#f4f4f5'); // default cardColor
   });
 
   it('renders markdown inside callout', () => {
@@ -19,7 +19,7 @@ describe('highlight directive', () => {
   it('renders highlight with brandColor background and white text', () => {
     const { html } = render('::: highlight\nLimited time offer\n:::');
     expect(html).toContain('Limited time offer');
-    expect(html).toContain('#fafafa'); // default brandColor
+    expect(html).toContain('#18181b'); // default brandColor
     // The highlight section should produce white text
     expect(html).toContain('#ffffff');
   });
