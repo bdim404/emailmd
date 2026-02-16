@@ -4,7 +4,6 @@ import type { Segment } from './segmenter.js';
 
 export interface WrapperMeta {
   preheader?: string;
-  logo?: string;
 }
 
 export type WrapperFn = (segments: Segment[], theme: Theme, meta?: WrapperMeta) => string;

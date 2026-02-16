@@ -1,6 +1,5 @@
 ---
 preheader: "Your weekly digest from Acme — new features, tips, and more"
-logo: https://placehold.co/150x40/5B4FE9/white?text=ACME
 ---
 
 # Your Weekly Update

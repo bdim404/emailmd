@@ -20,17 +20,6 @@ describe('default wrapper', () => {
     expect(html).not.toContain('Preview text here');
   });
 
-  it('renders logo when provided in frontmatter', () => {
-    const md = '---\nlogo: https://example.com/logo.png\n---\n\n# Hello';
-    const { html } = render(md);
-    expect(html).toContain('https://example.com/logo.png');
-  });
-
-  it('omits logo section when not provided', () => {
-    const { html } = render('# Hello');
-    expect(html).not.toContain('logo.png');
-  });
-
   it('renders footer with markdown bold', () => {
     const md = '# Hello\n\n::: footer\n**Acme Corp**\n:::';
     const { html } = render(md);
@@ -47,53 +36,6 @@ describe('default wrapper', () => {
   it('omits footer section when not provided', () => {
     const { html } = render('# Hello');
     expect(html).not.toContain('font-size="13px"');
-  });
-});
-
-describe('plain wrapper', () => {
-  it('uses white background', () => {
-    const { html } = render('# Hello', { wrapper: 'plain' });
-    expect(html).toContain('<!doctype html>');
-    // Plain wrapper should NOT have the gray background
-    expect(html).not.toContain(defaultTheme.backgroundColor);
-  });
-
-  it('includes preheader when provided', () => {
-    const md = '---\npreheader: Preview text\n---\n\n# Hello';
-    const { html } = render(md, { wrapper: 'plain' });
-    expect(html).toContain('Preview text');
-  });
-
-  it('ignores logo frontmatter', () => {
-    const md = '---\nlogo: https://example.com/logo.png\n---\n\n# Hello';
-    const { html } = render(md, { wrapper: 'plain' });
-    expect(html).not.toContain('example.com/logo.png');
-  });
-
-  it('preserves content rendering', () => {
-    const { html } = render('# Hello\n\nParagraph text.', { wrapper: 'plain' });
-    expect(html).toContain('Hello');
-    expect(html).toContain('Paragraph text.');
-  });
-});
-
-describe('naked wrapper', () => {
-  it('produces valid HTML with minimal structure', () => {
-    const { html } = render('# Hello', { wrapper: 'naked' });
-    expect(html).toContain('<!doctype html>');
-    expect(html).toContain('Hello');
-  });
-
-  it('has no background color on body', () => {
-    const { html } = render('# Hello', { wrapper: 'naked' });
-    // The naked wrapper should not set backgroundColor on mj-body
-    expect(html).not.toContain(defaultTheme.backgroundColor);
-  });
-
-  it('includes preheader when provided', () => {
-    const md = '---\npreheader: Preview text\n---\n\n# Hello';
-    const { html } = render(md, { wrapper: 'naked' });
-    expect(html).toContain('Preview text');
   });
 });
 
@@ -150,24 +92,5 @@ describe('segmentsToMjml', () => {
     expect(mjml).toContain('Text');
     expect(mjml).toContain('Callout');
     expect(mjml).toContain('Highlight');
-  });
-});
-
-describe('wrapper switching', () => {
-  const md = '# Same Content\n\nSame paragraph.';
-
-  it('default and plain produce different backgrounds but same content', () => {
-    const { html: defaultHtml } = render(md);
-    const { html: plainHtml } = render(md, { wrapper: 'plain' });
-
-    // Both contain the content
-    expect(defaultHtml).toContain('Same Content');
-    expect(plainHtml).toContain('Same Content');
-    expect(defaultHtml).toContain('Same paragraph.');
-    expect(plainHtml).toContain('Same paragraph.');
-
-    // Different backgrounds
-    expect(defaultHtml).toContain(defaultTheme.backgroundColor);
-    expect(plainHtml).not.toContain(defaultTheme.backgroundColor);
   });
 });

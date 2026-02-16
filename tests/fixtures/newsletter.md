@@ -1,6 +1,5 @@
 ---
 preheader: Weekly update from Acme
-logo: https://example.com/logo.png
 ---
 
 # This Week at Acme

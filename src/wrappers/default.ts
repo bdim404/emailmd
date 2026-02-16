@@ -7,18 +7,9 @@ export function defaultWrapper(segments: Segment[], theme: Theme, meta?: Wrapper
   const head = buildHead(theme, meta?.preheader);
   const body = segmentsToMjml(segments, theme);
 
-  const logoSection = meta?.logo
-    ? `<mj-section padding="20px 32px 0 32px" background-color="${theme.contentColor}">
-      <mj-column>
-        <mj-image src="${meta.logo}" alt="Logo" width="150px" />
-      </mj-column>
-    </mj-section>`
-    : '';
-
   return `<mjml>
   ${head}
   <mj-body background-color="${theme.backgroundColor}" width="${theme.contentWidth}">
-    ${logoSection}
     ${body}
   </mj-body>
 </mjml>`;

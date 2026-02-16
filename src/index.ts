@@ -5,8 +5,6 @@ export { defaultTheme, lightTheme, darkTheme, mergeTheme } from './theme.js';
 export { extractFrontmatter, frontmatterToThemeOverrides } from './frontmatter.js';
 export { buildHead, segmentsToMjml } from './mjml.js';
 export { defaultWrapper } from './wrappers/default.js';
-export { plainWrapper } from './wrappers/plain.js';
-export { nakedWrapper } from './wrappers/naked.js';
 
 import { mergeTheme, type Theme } from './theme.js';
 import { extractFrontmatter, frontmatterToThemeOverrides } from './frontmatter.js';
@@ -21,7 +19,7 @@ export interface RenderOptions {
   /** Theme overrides. Merged with defaults; frontmatter values take precedence. */
   theme?: Partial<Theme>;
   /** Wrapper template. Built-in names or a custom {@link WrapperFn}. */
-  wrapper?: 'default' | 'plain' | 'naked' | WrapperFn;
+  wrapper?: 'default' | WrapperFn;
 }
 
 /** Object returned by {@link render}. */
@@ -30,10 +28,9 @@ export interface RenderResult {
   html: string;
   /** Plain text version for the text/plain MIME part. */
   text: string;
-  /** Extracted frontmatter metadata (preheader, logo, and any custom keys). */
+  /** Extracted frontmatter metadata (preheader and any custom keys). */
   meta: {
     preheader?: string;
-    logo?: string;
     [key: string]: unknown;
   };
 }
@@ -67,7 +64,6 @@ export function render(markdown: string, options?: RenderOptions): RenderResult 
 
   const wrapperMeta: WrapperMeta = {
     preheader: meta.preheader as string | undefined,
-    logo: meta.logo as string | undefined,
   };
 
   const html = renderMjml(segments, theme, wrapperMeta, wrapperFn);

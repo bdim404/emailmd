@@ -191,14 +191,12 @@ describe('render result meta', () => {
   it('returns frontmatter values in meta', () => {
     const md = `---
 preheader: Preview text
-logo: https://example.com/logo.png
 custom_key: custom_value
 ---
 
 # Hello`;
     const { meta } = render(md);
     expect(meta.preheader).toBe('Preview text');
-    expect(meta.logo).toBe('https://example.com/logo.png');
     expect(meta.custom_key).toBe('custom_value');
   });
 

@@ -1,6 +1,5 @@
 ---
 preheader: "Introducing Acme 2.0 — faster, smarter, better"
-logo: https://placehold.co/150x40/5B4FE9/white?text=ACME
 button_color: "#059669"
 ---
 

@@ -59,15 +59,11 @@ describe('integration: full email with directives and buttons', () => {
 
 const newsletterFixture = readFileSync(resolve(__dirname, 'fixtures/newsletter.md'), 'utf-8');
 
-describe('integration: default wrapper with logo and footer directive', () => {
+describe('integration: default wrapper with footer directive', () => {
   const { html } = render(newsletterFixture);
 
   it('produces a complete HTML document', () => {
     expect(html).toContain('<!doctype html>');
-  });
-
-  it('renders the logo image', () => {
-    expect(html).toContain('https://example.com/logo.png');
   });
 
   it('renders the footer directive with markdown bold', () => {
@@ -95,8 +91,8 @@ describe('integration: default wrapper with logo and footer directive', () => {
 
 const transactionalFixture = readFileSync(resolve(__dirname, 'fixtures/transactional.md'), 'utf-8');
 
-describe('integration: plain wrapper', () => {
-  const { html } = render(transactionalFixture, { wrapper: 'plain' });
+describe('integration: transactional email', () => {
+  const { html } = render(transactionalFixture);
 
   it('produces a complete HTML document', () => {
     expect(html).toContain('<!doctype html>');

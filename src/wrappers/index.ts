@@ -1,16 +1,10 @@
 import type { WrapperFn } from '../mjml.js';
 import { defaultWrapper } from './default.js';
-import { plainWrapper } from './plain.js';
-import { nakedWrapper } from './naked.js';
 
 export { defaultWrapper } from './default.js';
-export { plainWrapper } from './plain.js';
-export { nakedWrapper } from './naked.js';
 
 const builtInWrappers: Record<string, WrapperFn> = {
   default: defaultWrapper,
-  plain: plainWrapper,
-  naked: nakedWrapper,
 };
 
 export function resolveWrapper(wrapper?: string | WrapperFn): WrapperFn {

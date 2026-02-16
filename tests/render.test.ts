@@ -168,12 +168,10 @@ Hello`;
   it('returns extracted frontmatter in meta', () => {
     const md = `---
 preheader: Preview
-logo: https://example.com/logo.png
 ---
 
 # Hello`;
     const { meta } = render(md);
     expect(meta.preheader).toBe('Preview');
-    expect(meta.logo).toBe('https://example.com/logo.png');
   });
 });

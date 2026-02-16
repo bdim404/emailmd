@@ -1,6 +1,5 @@
 ---
 preheader: "Welcome to Acme! Here's how to get started."
-logo: https://placehold.co/150x40/5B4FE9/white?text=ACME
 ---
 
 # Welcome to Acme!

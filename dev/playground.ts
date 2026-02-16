@@ -31,10 +31,9 @@ const server = createServer(async (req, res) => {
 
     if (req.method === 'POST' && req.url === '/render') {
       const body = await readBody(req);
-      const { markdown, wrapper, theme: themeName } = JSON.parse(body);
+      const { markdown, theme: themeName } = JSON.parse(body);
       try {
         const result = render(markdown, {
-          ...(wrapper ? { wrapper } : {}),
           ...(themeName === 'dark' ? { theme: darkTheme } : {}),
         });
         res.writeHead(200, { 'Content-Type': 'application/json' });
@@ -264,14 +263,7 @@ function getHtml(): string {
         <option value="dark">Dark</option>
       </select>
     </label>
-    <label>Wrapper
-      <select id="wrapper-select">
-        <option value="">default</option>
-        <option value="plain">plain</option>
-        <option value="naked">naked</option>
-      </select>
-    </label>
-    <label>Examples
+<label>Examples
       <select id="example-select">
         <option value="">Load example...</option>
       </select>
@@ -309,7 +301,6 @@ function getHtml(): string {
   const htmlOutput = document.getElementById('html-output');
   const textOutput = document.getElementById('text-output');
   const themeSelect = document.getElementById('theme-select');
-  const wrapperSelect = document.getElementById('wrapper-select');
   const exampleSelect = document.getElementById('example-select');
 
   // Tabs
@@ -331,7 +322,6 @@ function getHtml(): string {
 
   input.addEventListener('input', scheduleRender);
   themeSelect.addEventListener('change', renderPreview);
-  wrapperSelect.addEventListener('change', renderPreview);
 
   async function renderPreview() {
     const markdown = input.value;
@@ -348,7 +338,6 @@ function getHtml(): string {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           markdown,
-          wrapper: wrapperSelect.value || undefined,
           theme: themeSelect.value || undefined,
         }),
       });

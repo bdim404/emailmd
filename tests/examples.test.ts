@@ -14,23 +14,22 @@ describe('example files', () => {
   for (const file of exampleFiles) {
     describe(file, () => {
       const md = readFileSync(resolve(examplesDir, file), 'utf-8');
-      const wrapper = file === 'minimal.md' ? 'plain' as const : undefined;
 
       it('renders without errors', () => {
-        const result = render(md, wrapper ? { wrapper } : undefined);
+        const result = render(md);
         expect(result.html).toContain('<!doctype html>');
         expect(result.html).not.toMatch(/<mj-/);
         expect(result.html).not.toContain('EMAILMD:');
       });
 
       it('produces non-empty text output', () => {
-        const result = render(md, wrapper ? { wrapper } : undefined);
+        const result = render(md);
         expect(result.text.length).toBeGreaterThan(0);
         expect(result.text).not.toMatch(/<[^>]+>/);
       });
 
       it('returns meta object', () => {
-        const result = render(md, wrapper ? { wrapper } : undefined);
+        const result = render(md);
         expect(typeof result.meta).toBe('object');
       });
     });

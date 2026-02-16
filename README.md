@@ -67,7 +67,6 @@ Override theme values and set metadata per-email using YAML frontmatter:
 ```markdown
 ---
 preheader: "Don't miss our biggest sale"
-logo: https://example.com/logo.png
 brand_color: "#e11d48"
 button_color: "#059669"
 ---
@@ -249,20 +248,7 @@ In the plain text output, HTML tags are stripped and only the text content is pr
 
 ## Wrappers
 
-Control the email's outer structure:
-
-```typescript
-// Default — gray background, supports logo
-render(md);
-
-// Plain — white background, no logo
-render(md, { wrapper: 'plain' });
-
-// Naked — minimal, no background
-render(md, { wrapper: 'naked' });
-```
-
-Custom wrappers:
+The default wrapper provides a gray outer background with a white content area. You can supply a custom wrapper to fully control the email's outer structure:
 
 ```typescript
 import { render, buildHead, segmentsToMjml } from 'emailmd';
@@ -294,7 +280,7 @@ Renders markdown to email-safe HTML.
 ```typescript
 {
   theme?: Partial<Theme>;
-  wrapper?: 'default' | 'plain' | 'naked' | WrapperFn;
+  wrapper?: 'default' | WrapperFn;
 }
 ```
 
@@ -304,7 +290,7 @@ Renders markdown to email-safe HTML.
 {
   html: string;
   text: string;
-  meta: { preheader?: string; logo?: string; [key: string]: unknown };
+  meta: { preheader?: string; [key: string]: unknown };
 }
 ```
 
