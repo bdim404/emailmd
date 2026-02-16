@@ -6,11 +6,11 @@ preheader: "Your weekly digest from Acme — new features, tips, and more"
 ![Acme](https://placehold.co/150x50/5B4FE9/ffffff?text=Acme){width="150"}
 :::
 
-# Your Weekly Update
+# Your Weekly Update :newspaper:
 
 Hi there! Here's what happened this week at Acme.
 
-## New Features
+## New Features :sparkles:
 
 We shipped **three major features** this week that our users have been asking for:
 
@@ -42,7 +42,7 @@ If you're on a Pro plan, team dashboards are already enabled. Here's how to get 
 Join us next Thursday for a live walkthrough of the new features.
 
 ::: highlight
-**Live Demo:** Thursday, Feb 20 at 2pm ET — see the new features in action and ask questions.
+**Live Demo:** Thursday, Feb 20 at 2pm ET — see the new features in action and ask questions. ==Don't miss it!==
 :::
 
 [Register for Webinar](https://example.com/webinar){button}

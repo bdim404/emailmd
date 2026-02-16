@@ -225,6 +225,50 @@ Check out https://example.com for details.
 
 Angle bracket autolinks also work: `<https://example.com>` and `<user@example.com>`.
 
+## Emoji
+
+Use emoji shortcodes to insert emoji by name:
+
+```markdown
+Gone camping! :tent: Be back soon.
+
+That is so funny! :joy:
+```
+
+See the [full emoji list](https://gist.github.com/rxaviers/7360908) for all supported shortcodes.
+
+## Definition Lists
+
+```markdown
+First Term
+: This is the definition of the first term.
+
+Second Term
+: This is the definition of the second term.
+```
+
+The term appears bold, with the definition indented below it. In the plain text output, definitions are indented with two spaces.
+
+## Highlight
+
+Use double equals signs to highlight inline text:
+
+```markdown
+I need to highlight these ==very important words==.
+```
+
+Renders as `<mark>` with a background tinted to your `brandColor`.
+
+## Subscript & Superscript
+
+```markdown
+H~2~O
+
+X^2^ + Y^2^ = Z^2^
+```
+
+Use `~text~` for subscript and `^text^` for superscript. You can also use raw HTML `<sub>` and `<sup>` tags.
+
 ## Inline HTML
 
 Raw HTML tags pass through to the email output, following the [CommonMark spec](https://spec.commonmark.org/0.31.2/#raw-html). Use inline HTML for styling that markdown doesn't cover:

@@ -7,16 +7,16 @@ button_color: "#059669"
 ![Acme](https://placehold.co/150x50/059669/ffffff?text=Acme+2.0){width="150"}
 :::
 
-# Acme 2.0 Is Here
+# Acme 2.0 Is Here :tada:
 
 We've rebuilt Acme from the ground up. Everything is faster, smarter, and more powerful.
 
-This is the biggest update we've ever shipped.
+This is the ==biggest update== we've ever shipped.
 
 ::: callout
 **What's new in 2.0:**
 
-- 3x faster performance across the board
+- 3x faster performance across the board^1^
 - AI-powered suggestions that learn your workflow
 - Redesigned interface with customizable layouts
 - 50+ new integrations including Slack, Notion, and Linear

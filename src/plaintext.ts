@@ -54,6 +54,14 @@ export function toPlainText(html: string): string {
     return `${label} (${url})`;
   });
 
+  // Convert definition lists: <dl><dt>term</dt><dd>definition</dd></dl>
+  text = text.replace(/<dl>([\s\S]*?)<\/dl>/gi, (_, inner) => {
+    let result = inner;
+    result = result.replace(/<dt[^>]*>([\s\S]*?)<\/dt>/gi, (_: string, term: string) => `\n${stripTags(term).trim()}\n`);
+    result = result.replace(/<dd[^>]*>([\s\S]*?)<\/dd>/gi, (_: string, def: string) => `  ${stripTags(def).trim()}\n`);
+    return result;
+  });
+
   // Convert lists (handles nesting, mixed types, indentation)
   text = convertLists(text);
 

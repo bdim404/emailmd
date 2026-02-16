@@ -6,7 +6,7 @@ preheader: "Welcome to Acme! Here's how to get started."
 ![Acme](https://placehold.co/150x50/5B4FE9/ffffff?text=Acme){width="150"}
 :::
 
-# Welcome to Acme!
+# Welcome to Acme! :wave:
 
 We're thrilled to have you on board. You've just joined thousands of teams who use Acme to get things done faster.
 
@@ -23,7 +23,18 @@ Here's a quick guide to help you hit the ground running.
 4. **Explore templates** — start from a proven workflow
 :::
 
-## Need Help?
+## Key Concepts
+
+Workspace
+: Your team's shared space for projects, files, and conversations.
+
+Project
+: A container for tasks, documents, and milestones. Create as many as you need.
+
+Template
+: A pre-built workflow you can clone to get started quickly.
+
+## Need Help? :raising_hand:
 
 Our support team is here for you. We typically respond within a few hours.
 

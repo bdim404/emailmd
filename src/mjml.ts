@@ -28,6 +28,10 @@ export function buildHead(theme: Theme, preheader?: string): string {
       li { margin-bottom: 4px; }
       .task-list-item { list-style-type: none; margin-left: -24px; }
       ul ul, ol ol, ul ol, ol ul { margin-top: 4px; margin-bottom: 0; }
+      mark { background-color: ${theme.brandColor}33; padding: 2px 4px; border-radius: 2px; }
+      dl { margin: 0 0 8px 0; }
+      dt { font-weight: 700; margin-top: 8px; }
+      dd { margin: 2px 0 0 24px; }
     </mj-style>
     ${preheader ? `<mj-preview>${preheader}</mj-preview>` : ''}
   </mj-head>`;
