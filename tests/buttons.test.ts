@@ -3,7 +3,7 @@ import { render } from '../src/index.js';
 
 describe('button syntax', () => {
   it('renders {button} link as a styled button', () => {
-    const html = render('[Get Started](https://example.com){button}');
+    const { html } = render('[Get Started](https://example.com){button}');
     // Should not be a plain <a> tag — MJML compiles buttons to table-based markup
     expect(html).toContain('https://example.com');
     expect(html).toContain('Get Started');
@@ -12,7 +12,7 @@ describe('button syntax', () => {
   });
 
   it('renders {button.secondary} with border styling', () => {
-    const html = render('[Learn More](https://example.com){button.secondary}');
+    const { html } = render('[Learn More](https://example.com){button.secondary}');
     expect(html).toContain('Learn More');
     expect(html).toContain('https://example.com');
     // Secondary button has transparent background and a border
@@ -21,13 +21,13 @@ describe('button syntax', () => {
   });
 
   it('renders {button color="#dc2626"} with custom color', () => {
-    const html = render('[Shop Sale](https://example.com){button color="#dc2626"}');
+    const { html } = render('[Shop Sale](https://example.com){button color="#dc2626"}');
     expect(html).toContain('Shop Sale');
     expect(html).toContain('#dc2626');
   });
 
   it('leaves plain links as regular <a> tags', () => {
-    const html = render('[Normal link](https://example.com)');
+    const { html } = render('[Normal link](https://example.com)');
     expect(html).toContain('href="https://example.com"');
     expect(html).toContain('Normal link');
     // Should be a standard inline link, not button table markup
@@ -35,7 +35,7 @@ describe('button syntax', () => {
   });
 
   it('preserves button text correctly', () => {
-    const html = render('[Click Here Now](https://example.com/action){button}');
+    const { html } = render('[Click Here Now](https://example.com/action){button}');
     expect(html).toContain('Click Here Now');
   });
 });

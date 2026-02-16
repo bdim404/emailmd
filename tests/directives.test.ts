@@ -3,13 +3,13 @@ import { render } from '../src/index.js';
 
 describe('callout directive', () => {
   it('renders callout with cardColor background', () => {
-    const html = render('::: callout\nHello from callout\n:::');
+    const { html } = render('::: callout\nHello from callout\n:::');
     expect(html).toContain('Hello from callout');
     expect(html).toContain('#f3f4f6'); // default cardColor
   });
 
   it('renders markdown inside callout', () => {
-    const html = render('::: callout\n**Bold** and [a link](https://example.com)\n:::');
+    const { html } = render('::: callout\n**Bold** and [a link](https://example.com)\n:::');
     expect(html).toContain('<strong>Bold</strong>');
     expect(html).toContain('href="https://example.com"');
   });
@@ -17,7 +17,7 @@ describe('callout directive', () => {
 
 describe('highlight directive', () => {
   it('renders highlight with brandColor background and white text', () => {
-    const html = render('::: highlight\nLimited time offer\n:::');
+    const { html } = render('::: highlight\nLimited time offer\n:::');
     expect(html).toContain('Limited time offer');
     expect(html).toContain('#5B4FE9'); // default brandColor
     // The highlight section should produce white text
@@ -27,7 +27,7 @@ describe('highlight directive', () => {
 
 describe('centered directive', () => {
   it('renders centered text with center alignment', () => {
-    const html = render('::: centered\nCentered content\n:::');
+    const { html } = render('::: centered\nCentered content\n:::');
     expect(html).toContain('Centered content');
     expect(html).toContain('text-align:center');
   });
@@ -46,7 +46,7 @@ Second block
 ::: centered
 Third block
 :::`;
-    const html = render(md);
+    const { html } = render(md);
     expect(html).toContain('First block');
     expect(html).toContain('Second block');
     expect(html).toContain('Third block');
@@ -62,7 +62,7 @@ A callout
 :::
 
 More text after.`;
-    const html = render(md);
+    const { html } = render(md);
     expect(html).toContain('<h1>Heading</h1>');
     expect(html).toContain('Some paragraph text.');
     expect(html).toContain('A callout');

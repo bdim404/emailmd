@@ -6,7 +6,7 @@ import { render } from '../src/index.js';
 const fixture = readFileSync(resolve(__dirname, 'fixtures/directives.md'), 'utf-8');
 
 describe('integration: full email with directives and buttons', () => {
-  const html = render(fixture);
+  const { html } = render(fixture);
 
   it('produces a complete HTML document', () => {
     expect(html).toContain('<!doctype html>');
@@ -60,7 +60,7 @@ describe('integration: full email with directives and buttons', () => {
 const newsletterFixture = readFileSync(resolve(__dirname, 'fixtures/newsletter.md'), 'utf-8');
 
 describe('integration: default wrapper with logo and footer', () => {
-  const html = render(newsletterFixture);
+  const { html } = render(newsletterFixture);
 
   it('produces a complete HTML document', () => {
     expect(html).toContain('<!doctype html>');
@@ -96,7 +96,7 @@ describe('integration: default wrapper with logo and footer', () => {
 const transactionalFixture = readFileSync(resolve(__dirname, 'fixtures/transactional.md'), 'utf-8');
 
 describe('integration: plain wrapper', () => {
-  const html = render(transactionalFixture, { wrapper: 'plain' });
+  const { html } = render(transactionalFixture, { wrapper: 'plain' });
 
   it('produces a complete HTML document', () => {
     expect(html).toContain('<!doctype html>');
