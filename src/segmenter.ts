@@ -11,12 +11,13 @@ import {
   MARKER_FOOTER_CLOSE,
 } from './constants.js';
 
-export type SegmentType = 'text' | 'callout' | 'centered' | 'highlight' | 'header' | 'footer' | 'button' | 'image' | 'hr' | 'table';
+export type SegmentType = 'text' | 'callout' | 'centered' | 'highlight' | 'header' | 'footer' | 'button' | 'button-group' | 'image' | 'hr' | 'table';
 
 export interface Segment {
   type: SegmentType;
   content: string;
   attrs?: Record<string, string>;
+  buttons?: Array<Record<string, string>>;
 }
 
 const DIRECTIVE_PAIRS: Array<{ open: string; close: string; type: SegmentType }> = [
@@ -27,9 +28,9 @@ const DIRECTIVE_PAIRS: Array<{ open: string; close: string; type: SegmentType }>
   { open: MARKER_FOOTER_OPEN, close: MARKER_FOOTER_CLOSE, type: 'footer' },
 ];
 
-// Matches <p><a ...>text</a></p> where the <a> has a button or button.secondary attribute
-// markdown-it-attrs produces: button="" for {button}, button.secondary="" for {button.secondary}
-const BUTTON_LINK_RE = /<p>\s*<a\s+([^>]*)>([^<]*)<\/a>\s*<\/p>/g;
+// Matches <p> containing only <a> tags (one or more) with optional whitespace between them
+const BUTTON_PARA_RE = /<p>\s*((?:<a\s+[^>]*>[^<]*<\/a>\s*)+)<\/p>/g;
+const INNER_LINK_RE = /<a\s+([^>]*)>([^<]*)<\/a>/g;
 
 function parseButtonAttrs(attrString: string): { isButton: boolean; href: string; variant?: string; color?: string } {
   const result = { isButton: false, href: '', variant: undefined as string | undefined, color: undefined as string | undefined };
@@ -57,16 +58,36 @@ function parseButtonAttrs(attrString: string): { isButton: boolean; href: string
 
 function extractButtons(html: string): { html: string; buttons: Segment[] } {
   const buttons: Segment[] = [];
-  const result = html.replace(BUTTON_LINK_RE, (match, attrString, text) => {
-    const parsed = parseButtonAttrs(attrString);
-    if (!parsed.isButton) return match; // Not a button, leave as-is
+  const result = html.replace(BUTTON_PARA_RE, (match, innerLinks) => {
+    // Parse all <a> tags in this paragraph
+    const links: Array<{ attrString: string; text: string; parsed: ReturnType<typeof parseButtonAttrs> }> = [];
+    const re = new RegExp(INNER_LINK_RE.source, 'g');
+    let linkMatch;
+    while ((linkMatch = re.exec(innerLinks)) !== null) {
+      links.push({ attrString: linkMatch[1], text: linkMatch[2], parsed: parseButtonAttrs(linkMatch[1]) });
+    }
 
-    const attrs: Record<string, string> = { href: parsed.href, text };
-    if (parsed.variant) attrs.variant = parsed.variant;
-    if (parsed.color) attrs.color = parsed.color;
+    // All links must be buttons, otherwise leave paragraph as-is
+    if (links.length === 0 || !links.every(l => l.parsed.isButton)) return match;
 
     const placeholder = `<!--EMAILMD:BUTTON_${buttons.length}-->`;
-    buttons.push({ type: 'button', content: text, attrs });
+
+    if (links.length === 1) {
+      const { parsed, text } = links[0];
+      const attrs: Record<string, string> = { href: parsed.href, text };
+      if (parsed.variant) attrs.variant = parsed.variant;
+      if (parsed.color) attrs.color = parsed.color;
+      buttons.push({ type: 'button', content: text, attrs });
+    } else {
+      const groupButtons = links.map(({ parsed, text }) => {
+        const attrs: Record<string, string> = { href: parsed.href, text };
+        if (parsed.variant) attrs.variant = parsed.variant;
+        if (parsed.color) attrs.color = parsed.color;
+        return attrs;
+      });
+      buttons.push({ type: 'button-group', content: '', buttons: groupButtons });
+    }
+
     return placeholder;
   });
   return { html: result, buttons };

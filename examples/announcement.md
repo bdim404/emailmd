@@ -26,13 +26,11 @@ This is the ==biggest update== we've ever shipped.
 
 Acme 2.0 is rolling out to all users today. No migration needed — just log in and experience the difference.
 
-[Try Acme 2.0 Now](https://example.com/launch){button}
+[Try Acme 2.0 Now](https://example.com/launch){button} [Learn More About Pro](https://example.com/pro){button.secondary}
 
 ::: highlight
 **Early adopter bonus:** Upgrade to Pro this week and get 3 months free.
 :::
-
-[Learn More About Pro](https://example.com/pro){button.secondary}
 
 ::: centered
 Questions? Reply to this email or visit our [help center](https://example.com/help).

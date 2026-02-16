@@ -38,4 +38,35 @@ describe('button syntax', () => {
     const { html } = render('[Click Here Now](https://example.com/action){button}');
     expect(html).toContain('Click Here Now');
   });
+
+  it('renders two buttons on the same line side-by-side', () => {
+    const { html } = render('[Get Started](https://example.com){button} [Learn More](https://example.com/more){button.secondary}');
+    expect(html).toContain('Get Started');
+    expect(html).toContain('Learn More');
+    expect(html).toContain('https://example.com/more');
+    // Secondary should have border styling
+    expect(html).toContain('transparent');
+    expect(html).toContain('2px solid');
+  });
+
+  it('renders three buttons on the same line side-by-side', () => {
+    const { html } = render('[A](https://a.com){button} [B](https://b.com){button.secondary} [C](https://c.com){button color="#dc2626"}');
+    expect(html).toContain('https://a.com');
+    expect(html).toContain('https://b.com');
+    expect(html).toContain('https://c.com');
+    expect(html).toContain('#dc2626');
+  });
+
+  it('keeps buttons stacked when separated by blank lines', () => {
+    const md = '[Get Started](https://example.com){button}\n\n[Learn More](https://example.com/more){button.secondary}';
+    const { html } = render(md);
+    expect(html).toContain('Get Started');
+    expect(html).toContain('Learn More');
+  });
+
+  it('produces plain text for side-by-side buttons', () => {
+    const { text } = render('[Get Started](https://example.com){button} [Learn More](https://example.com/more){button.secondary}');
+    expect(text).toContain('Get Started: https://example.com');
+    expect(text).toContain('Learn More: https://example.com/more');
+  });
 });

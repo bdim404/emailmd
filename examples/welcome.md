@@ -12,7 +12,7 @@ We're thrilled to have you on board. You've just joined thousands of teams who u
 
 Here's a quick guide to help you hit the ground running.
 
-[Go to Your Dashboard](https://example.com/dashboard){button}
+[Dashboard](https://example.com/dashboard){button} [Browse Docs](https://example.com/docs){button.secondary}
 
 ::: callout
 **Getting started is easy:**

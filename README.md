@@ -135,6 +135,16 @@ The Acme Team
 [Shop Sale](https://example.com){button color="#dc2626"}
 ```
 
+### Side-by-Side Buttons
+
+Place multiple buttons on the same line to render them side-by-side:
+
+```markdown
+[Get Started](https://example.com){button} [Learn More](https://example.com/more){button.secondary}
+```
+
+Buttons on separate lines (separated by a blank line) stack vertically as usual. MJML handles responsive stacking automatically — side-by-side on desktop, stacked on mobile.
+
 ## Images
 
 Block images (standalone paragraph) are automatically rendered as responsive, centered email images:

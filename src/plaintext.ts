@@ -31,11 +31,23 @@ export function toPlainText(html: string): string {
   text = text.replace(new RegExp(escapeRegExp(MARKER_FOOTER_CLOSE), 'g'), '');
 
   // Convert buttons: <p><a href="url" button="">Text</a></p> → Text: url
-  text = text.replace(/<p>\s*<a\s+([^>]*?)>([^<]*)<\/a>\s*<\/p>/g, (_, attrs, label) => {
-    if (!/\bbutton\b/.test(attrs)) return `${label}`;
-    const hrefMatch = attrs.match(/href="([^"]*)"/);
-    const url = hrefMatch ? hrefMatch[1] : '';
-    return `${label}: ${url}\n`;
+  // Handles both single and multiple buttons in one paragraph
+  text = text.replace(/<p>\s*((?:<a\s+[^>]*>[^<]*<\/a>\s*)+)<\/p>/g, (match, inner) => {
+    const linkRe = /<a\s+([^>]*?)>([^<]*)<\/a>/g;
+    let linkMatch;
+    const results: string[] = [];
+    let allButtons = true;
+    while ((linkMatch = linkRe.exec(inner)) !== null) {
+      if (!/\bbutton\b/.test(linkMatch[1])) {
+        allButtons = false;
+        break;
+      }
+      const hrefMatch = linkMatch[1].match(/href="([^"]*)"/);
+      const url = hrefMatch ? hrefMatch[1] : '';
+      results.push(`${linkMatch[2]}: ${url}`);
+    }
+    if (!allButtons || results.length === 0) return match;
+    return results.join('\n') + '\n';
   });
 
   // Convert headings to UPPERCASE

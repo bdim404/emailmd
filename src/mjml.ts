@@ -121,6 +121,37 @@ function renderButtonSegment(segment: Segment, theme: Theme): string {
     </mj-section>`;
 }
 
+function renderButtonGroupSegment(segment: Segment, theme: Theme): string {
+  const columns = segment.buttons!.map(attrs => {
+    const isSecondary = attrs.variant === 'secondary';
+    const customColor = attrs.color;
+
+    let bgColor: string;
+    let textColor: string;
+    let border = '';
+
+    if (customColor) {
+      bgColor = customColor;
+      textColor = '#ffffff';
+    } else if (isSecondary) {
+      bgColor = 'transparent';
+      textColor = theme.buttonColor;
+      border = `border="2px solid ${theme.buttonColor}"`;
+    } else {
+      bgColor = theme.buttonColor;
+      textColor = theme.buttonTextColor;
+    }
+
+    return `<mj-column>
+        <mj-button background-color="${bgColor}" color="${textColor}" font-size="16px" font-weight="600" border-radius="8px" inner-padding="14px 32px" padding="10px 0" ${border} href="${attrs.href}">${attrs.text}</mj-button>
+      </mj-column>`;
+  }).join('\n      ');
+
+  return `<mj-section background-color="${theme.contentColor}" padding="8px 32px">
+      ${columns}
+    </mj-section>`;
+}
+
 function renderImageSegment(segment: Segment, theme: Theme): string {
   const attrs = segment.attrs!;
 
@@ -199,6 +230,8 @@ function segmentToMjml(segment: Segment, theme: Theme): string {
       return renderHrSegment(theme);
     case 'button':
       return renderButtonSegment(segment, theme);
+    case 'button-group':
+      return renderButtonGroupSegment(segment, theme);
     case 'image':
       return renderImageSegment(segment, theme);
     case 'table':
