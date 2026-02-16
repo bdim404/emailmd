@@ -71,6 +71,13 @@ Hello`;
     expect(typeof result.meta).toBe('object');
   });
 
+  it('renders a horizontal rule as a divider', () => {
+    const { html } = render('Above\n\n---\n\nBelow');
+    expect(html).toContain('Above');
+    expect(html).toContain('Below');
+    expect(html).toContain('border');
+  });
+
   it('returns extracted frontmatter in meta', () => {
     const md = `---
 preheader: Preview

@@ -66,6 +66,14 @@ function renderFooterSegment(content: string): string {
     </mj-section>`;
 }
 
+function renderHrSegment(theme: Theme): string {
+  return `<mj-section background-color="${theme.contentColor}" padding="8px 32px">
+      <mj-column>
+        <mj-divider border-color="${theme.cardColor}" border-width="1px" />
+      </mj-column>
+    </mj-section>`;
+}
+
 function renderButtonSegment(segment: Segment, theme: Theme): string {
   const attrs = segment.attrs!;
   const isSecondary = attrs.variant === 'secondary';
@@ -106,6 +114,8 @@ function segmentToMjml(segment: Segment, theme: Theme): string {
       return renderHighlightSegment(segment.content, theme);
     case 'footer':
       return renderFooterSegment(segment.content);
+    case 'hr':
+      return renderHrSegment(theme);
     case 'button':
       return renderButtonSegment(segment, theme);
   }

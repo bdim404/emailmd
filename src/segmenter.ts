@@ -9,7 +9,7 @@ import {
   MARKER_FOOTER_CLOSE,
 } from './constants.js';
 
-export type SegmentType = 'text' | 'callout' | 'centered' | 'highlight' | 'footer' | 'button';
+export type SegmentType = 'text' | 'callout' | 'centered' | 'highlight' | 'footer' | 'button' | 'hr';
 
 export interface Segment {
   type: SegmentType;
@@ -139,8 +139,35 @@ function splitOnButtonPlaceholders(segments: Segment[], buttons: Segment[]): Seg
   return result;
 }
 
+const HR_RE = /<hr\s*\/?>/i;
+
+function splitOnHr(segments: Segment[]): Segment[] {
+  const result: Segment[] = [];
+  for (const seg of segments) {
+    if (seg.type !== 'text') {
+      result.push(seg);
+      continue;
+    }
+    let text = seg.content;
+    let match: RegExpExecArray | null;
+    while ((match = HR_RE.exec(text)) !== null) {
+      const before = text.slice(0, match.index);
+      if (before.trim()) {
+        result.push({ type: 'text', content: before });
+      }
+      result.push({ type: 'hr', content: '' });
+      text = text.slice(match.index + match[0].length);
+    }
+    if (text.trim()) {
+      result.push({ type: 'text', content: text });
+    }
+  }
+  return result;
+}
+
 export function segment(html: string): Segment[] {
   const { html: htmlWithPlaceholders, buttons } = extractButtons(html);
   const segments = splitOnDirectives(htmlWithPlaceholders);
-  return splitOnButtonPlaceholders(segments, buttons);
+  const withButtons = splitOnButtonPlaceholders(segments, buttons);
+  return splitOnHr(withButtons);
 }
