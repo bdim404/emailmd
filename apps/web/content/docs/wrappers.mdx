@@ -3,7 +3,11 @@ title: Wrappers
 description: Customize the outer email structure with custom wrappers.
 ---
 
-The default wrapper provides a gray outer background with a white content area. You can supply a custom wrapper to fully control the email's outer structure:
+Most emails work great with the default wrapper — a gray outer background with a centered white content area. Custom wrappers are for when you need full control over the outer MJML structure, such as an edge-to-edge background color, custom `<mj-body>` attributes, or a multi-section layout.
+
+## Custom Wrapper
+
+Supply a `WrapperFn` to replace the default outer structure:
 
 ```typescript
 import { render, buildHead, segmentsToMjml } from 'emailmd';
@@ -18,10 +22,17 @@ const myWrapper: WrapperFn = (segments, theme, meta) => {
 render(md, { wrapper: myWrapper });
 ```
 
-The wrapper function receives:
+The wrapper function receives three arguments:
 
-- `segments` — parsed content segments from the markdown
-- `theme` — the resolved theme object
-- `meta` — extracted frontmatter metadata
+- **`segments`** — the parsed content blocks from the markdown (text, buttons, images, directives, tables, etc.). Each segment has a `type`, `content`, and optional `attrs`.
+- **`theme`** — the fully resolved theme object after merging defaults with any overrides from the render options and frontmatter.
+- **`meta`** — extracted frontmatter metadata (includes `preheader` and any custom keys).
 
-You have full control over the MJML structure, including the head (where styles and preheader live) and body layout.
+## Helper Functions
+
+Email.md exports two helpers for use inside custom wrappers:
+
+- **`buildHead(theme, preheader?)`** — generates the `<mj-head>` element containing global styles, font imports, and the hidden preheader text.
+- **`segmentsToMjml(segments, theme)`** — converts the parsed segments into MJML body elements (sections, columns, text, buttons, images, tables, etc.).
+
+You can call these helpers to reuse Email.md's rendering logic while customizing the outer shell, or you can skip them entirely and write raw MJML from scratch.

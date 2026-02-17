@@ -27,27 +27,9 @@ Thanks for signing up.
 
 The `render` function returns:
 
-- `html` — complete email-safe HTML document
-- `text` — plain text version for the `text/plain` MIME part
-- `meta` — extracted frontmatter metadata
-
-## Sending the Email
-
-Use the `html` and `text` outputs with any email sending service:
-
-```typescript
-import { render } from "emailmd";
-
-const { html, text } = render(markdown);
-
-// Use with your email service (Nodemailer, SendGrid, Resend, etc.)
-await sendEmail({
-  to: "user@example.com",
-  subject: "Welcome!",
-  html,
-  text,
-});
-```
+- `html` — a complete HTML document (DOCTYPE, html, head, body) ready to use as the `text/html` MIME part. Not a fragment — you can send it as-is.
+- `text` — plain text version for the `text/plain` MIME part. Buttons become `Label: https://url`, images become `[Image: alt]`, and all formatting is stripped.
+- `meta` — frontmatter metadata extracted from the markdown. Includes `preheader` (inbox preview text) and any custom keys you define. See [Frontmatter](/docs/frontmatter).
 
 ## Next Steps
 

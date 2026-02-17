@@ -3,7 +3,7 @@ title: Hero
 description: Full-width section with a background image and overlaid text.
 ---
 
-A full-width section with a background image and overlaid text — typically used for a hero banner:
+A full-width section with a background image and overlaid text — typically used for a hero banner at the top of an email:
 
 ```markdown
 ::: hero https://example.com/hero.jpg
@@ -12,6 +12,17 @@ Get started with your new account today.
 :::
 ```
 
-Text is centered and rendered in white for contrast against the background image. MJML handles Outlook VML fallbacks automatically.
+The URL after `hero` is required and specifies the background image. All content inside the directive is overlaid on top of it.
 
-The URL after `hero` specifies the background image. All content inside the directive is overlaid on top.
+Text is centered and rendered in white for contrast against the background image. You can include any markdown content inside the hero — headings, paragraphs, buttons, and more:
+
+```markdown
+::: hero https://example.com/sale-bg.jpg
+# Summer Sale
+Up to 50% off everything this weekend.
+
+[Shop Now](https://example.com/sale){button color="#e11d48"}
+:::
+```
+
+MJML handles Outlook VML fallbacks automatically, so the background image works across all major email clients.

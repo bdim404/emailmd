@@ -15,12 +15,26 @@ Standard GFM (GitHub Flavored Markdown) tables are supported and rendered as sty
 
 ## Column Alignment
 
-Control column alignment using colons in the separator row:
+Control column alignment using colons in the separator row — left-align with `:---`, center with `:---:`, right-align with `---:`:
 
 ```markdown
-| Left   | Center | Right |
-| :----- | :----: | ----: |
-| left   | center | right |
+| Item                     |   Qty |    Price |
+| :----------------------- | ----: | -------: |
+| Monstera Deliciosa, 6"   |     1 |   $42.00 |
+| Ceramic Pot, White       |     1 |   $18.00 |
+| **Total**                |       | **$60.00** |
 ```
 
-Tables are automatically styled with theme colors — header rows are bold with a bottom border, and body rows have subtle separators.
+## Automatic Styling
+
+Tables are automatically styled with your theme colors:
+
+- **Header row** — bold text with a 2px bottom border
+- **Body rows** — subtle 1px bottom borders between rows
+- **Cell padding** — consistent 8px vertical, 12px horizontal
+
+All colors and borders inherit from your theme, so tables match the rest of your email without any extra configuration.
+
+## Tips
+
+Keep tables simple and narrow for the best results on mobile. Very wide tables may require horizontal scrolling on small screens — stick to 2–4 columns when possible.

@@ -3,7 +3,7 @@ title: Frontmatter
 description: Override theme values and set metadata per-email using YAML frontmatter.
 ---
 
-Override theme values and set metadata per-email using YAML frontmatter:
+Add a YAML frontmatter block at the top of your markdown to override theme values and set metadata per-email:
 
 ```markdown
 ---
@@ -21,6 +21,18 @@ Everything is 50% off this weekend.
 :::
 ```
 
+Frontmatter uses `snake_case` keys. They map directly to the same [theme options](/docs/theme) available in the JS API (which uses `camelCase`).
+
+## Preheader
+
+The `preheader` field sets the preview text that email clients show in the inbox list next to the subject line. It's hidden in the email body itself:
+
+```markdown
+---
+preheader: "Your order has shipped — track it now"
+---
+```
+
 ## Selecting a Theme
 
 Use `theme` to switch the base theme for a single email. Individual overrides still layer on top:
@@ -35,3 +47,44 @@ brand_color: "#e11d48"
 ```
 
 Valid values: `light` (default), `dark`.
+
+## All Frontmatter Keys
+
+| Key | Description |
+|-----|-------------|
+| `preheader` | Inbox preview text (hidden in email body) |
+| `theme` | Base theme — `light` or `dark` |
+| `brand_color` | Links, highlights, accents |
+| `heading_color` | Heading text color |
+| `body_color` | Body text color |
+| `background_color` | Outer background color |
+| `content_color` | Content area background |
+| `card_color` | Callout / code block background |
+| `button_color` | Primary button background |
+| `button_text_color` | Button text color |
+| `font_family` | Font stack |
+| `font_size` | Base font size |
+| `line_height` | Base line height |
+| `content_width` | Email content width |
+
+## Custom Metadata
+
+Any keys beyond the ones above are passed through in the `meta` object returned by `render()`. This is useful for storing email metadata alongside the template:
+
+```markdown
+---
+preheader: "Welcome aboard"
+subject: "Welcome to Acme"
+campaign_id: "onboarding-v2"
+---
+
+# Welcome!
+```
+
+```typescript
+const { html, text, meta } = render(markdown);
+
+console.log(meta.subject);     // "Welcome to Acme"
+console.log(meta.campaign_id); // "onboarding-v2"
+console.log(meta.preheader);   // "Welcome aboard"
+```

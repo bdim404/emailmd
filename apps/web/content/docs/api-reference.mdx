@@ -49,6 +49,29 @@ const { html, text, meta } = render("# Hello");
 | `text`   | `string` | Plain text version                |
 | `meta`   | `object` | Extracted frontmatter metadata    |
 
+## `Theme`
+
+The full theme interface with all customizable properties:
+
+```typescript
+interface Theme {
+  brandColor: string;       // Links, highlights, accents
+  headingColor: string;     // Heading text
+  bodyColor: string;        // Body text
+  backgroundColor: string;  // Outer background
+  contentColor: string;     // Content area background
+  cardColor: string;        // Callout / code block background
+  buttonColor: string;      // Primary button background
+  buttonTextColor: string;  // Button text
+  fontFamily: string;       // Font stack
+  fontSize: string;         // Base font size (e.g. "16px")
+  lineHeight: string;       // Base line height (e.g. "1.6")
+  contentWidth: string;     // Email width (e.g. "600px")
+}
+```
+
+Pass a `Partial<Theme>` to `render()` to override any subset of values. See [Theme](/docs/theme) for defaults.
+
 ## `darkTheme`
 
 A pre-built dark theme object. Import and pass directly or spread with overrides:
@@ -65,11 +88,33 @@ render(md, { theme: { ...darkTheme, brandColor: "#e11d48" } });
 
 ## `buildHead(theme, preheader?)`
 
-Generates the MJML `<mj-head>` element. Used when building custom wrappers.
+```typescript
+function buildHead(theme: Theme, preheader?: string): string;
+```
+
+Generates the MJML `<mj-head>` element containing global styles, font imports, and the hidden preheader text. Used when building [custom wrappers](/docs/wrappers).
 
 ## `segmentsToMjml(segments, theme)`
 
-Converts parsed content segments to MJML body elements. Used when building custom wrappers.
+```typescript
+function segmentsToMjml(segments: Segment[], theme: Theme): string;
+```
+
+Converts parsed content segments into MJML body elements (sections, columns, text, buttons, images, tables, etc.). Used when building [custom wrappers](/docs/wrappers).
+
+## `Segment`
+
+```typescript
+interface Segment {
+  type: 'text' | 'callout' | 'centered' | 'highlight' | 'header' | 'footer'
+      | 'button' | 'button-group' | 'image' | 'hr' | 'table' | 'hero';
+  content: string;
+  attrs?: Record<string, string>;
+  buttons?: Array<Record<string, string>>;
+}
+```
+
+Represents a parsed block of content from the markdown. The `segments` array is what gets passed to `segmentsToMjml` and to custom wrapper functions.
 
 ## `WrapperFn`
 
@@ -81,4 +126,4 @@ type WrapperFn = (
 ) => string;
 ```
 
-A function that receives parsed segments, the resolved theme, and frontmatter metadata, and returns a complete MJML string.
+A function that receives parsed segments, the resolved theme, and frontmatter metadata, and returns a complete MJML string. See [Wrappers](/docs/wrappers) for usage examples.

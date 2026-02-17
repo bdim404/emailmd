@@ -1,0 +1,128 @@
+---
+title: Markdown
+description: All the standard and extended markdown syntax Email.md supports.
+---
+
+Email.md supports standard markdown plus several extensions. This page covers the features that aren't covered by their own dedicated docs pages ([buttons](/docs/buttons), [images](/docs/images), [tables](/docs/tables), [emoji](/docs/emoji), and [directives](/docs/directives)).
+
+## Text Formatting
+
+Standard inline formatting works as expected:
+
+```markdown
+**Bold text** and *italic text* and ***bold italic***.
+
+~~Strikethrough~~ for deleted content.
+
+`inline code` renders with a subtle background.
+```
+
+## Headings
+
+```markdown
+# Heading 1
+## Heading 2
+### Heading 3
+#### Heading 4
+```
+
+Headings are styled with the theme's `headingColor`.
+
+## Links
+
+```markdown
+[Visit our site](https://example.com)
+
+Autolinks work too: https://example.com
+```
+
+Links are styled with the theme's `brandColor`.
+
+## Lists
+
+Ordered and unordered lists:
+
+```markdown
+- First item
+- Second item
+- Third item
+
+1. Step one
+2. Step two
+3. Step three
+```
+
+## Task Lists
+
+```markdown
+- [x] Design approved
+- [x] Content written
+- [ ] Ready to send
+```
+
+Task lists render with checkboxes — checked items show a filled checkbox, unchecked items show an empty one.
+
+## Blockquotes
+
+```markdown
+> "The best way to predict the future is to create it."
+>
+> — Peter Drucker
+```
+
+Blockquotes are styled with a left border in your theme's `brandColor`.
+
+## Code Blocks
+
+Fenced code blocks render with a theme-aware background:
+
+````markdown
+```
+const greeting = "Hello, world!";
+console.log(greeting);
+```
+````
+
+The background uses the theme's `cardColor` with rounded corners and comfortable padding.
+
+## Definition Lists
+
+```markdown
+Email.md
+: A markdown-to-email library.
+
+MJML
+: The framework that powers Email.md's HTML output.
+```
+
+## Highlighted Text
+
+Use `==double equals==` to highlight text with a colored background:
+
+```markdown
+Don't miss our ==biggest sale of the year==!
+```
+
+The highlight uses your theme's `brandColor` at reduced opacity.
+
+## Subscript & Superscript
+
+```markdown
+H~2~O is water.
+
+E = mc^2^ is famous.
+```
+
+`~text~` renders as subscript, `^text^` renders as superscript.
+
+## Horizontal Rules
+
+A horizontal rule creates a visual separator between sections:
+
+```markdown
+Thanks for reading!
+
+---
+
+*The Acme Team*
+```
