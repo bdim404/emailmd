@@ -1,4 +1,5 @@
 import { BuilderClient } from "@/components/builder/builder-client";
+import { getTemplateById } from "@/lib/templates";
 
 export const metadata = {
   title: "Builder - Email.md",
@@ -6,6 +7,13 @@ export const metadata = {
     "Build responsive email templates with markdown in real-time.",
 };
 
-export default function BuilderPage() {
-  return <BuilderClient />;
+export default async function BuilderPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ template?: string }>;
+}) {
+  const { template: templateId } = await searchParams;
+  const template = templateId ? getTemplateById(templateId) : undefined;
+
+  return <BuilderClient initialMarkdown={template?.markdown} />;
 }

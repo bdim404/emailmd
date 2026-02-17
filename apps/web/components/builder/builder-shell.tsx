@@ -5,7 +5,15 @@ import { render } from "emailmd";
 import { EditorPane } from "./editor-pane";
 import { OutputPane } from "./output-pane";
 
-const DEFAULT_MARKDOWN = `# Welcome!
+const DEFAULT_MARKDOWN = `---
+preheader: "Thanks for signing up."
+---
+
+::: header
+![Logo](https://imgs.emailmd.dev/logoipsum-336.png){width="200"}
+:::
+
+# Welcome!
 
 Thanks for signing up. We're excited to have you on board.
 
@@ -22,8 +30,12 @@ Acme Inc. | 123 Main St | [Unsubscribe](https://example.com/unsub)
 :::
 `;
 
-export function BuilderShell() {
-  const [markdown, setMarkdown] = useState(DEFAULT_MARKDOWN);
+export function BuilderShell({
+  initialMarkdown,
+}: {
+  initialMarkdown?: string;
+}) {
+  const [markdown, setMarkdown] = useState(initialMarkdown ?? DEFAULT_MARKDOWN);
   const [html, setHtml] = useState("");
   const [text, setText] = useState("");
   const debounceRef = useRef<ReturnType<typeof setTimeout>>(undefined);

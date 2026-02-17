@@ -8,6 +8,10 @@ const BuilderShell = dynamic(
   { ssr: false }
 );
 
-export function BuilderClient() {
-  return <BuilderShell />;
+export function BuilderClient({
+  initialMarkdown,
+}: {
+  initialMarkdown?: string;
+}) {
+  return <BuilderShell initialMarkdown={initialMarkdown} />;
 }

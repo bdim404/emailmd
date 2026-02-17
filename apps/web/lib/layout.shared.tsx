@@ -16,6 +16,10 @@ export function baseOptions(): BaseLayoutProps {
     githubUrl: "https://github.com/unmta/emailmd",
     links: [
       {
+        text: "Templates",
+        url: "/templates",
+      },
+      {
         text: "Builder",
         url: "/builder",
       },
