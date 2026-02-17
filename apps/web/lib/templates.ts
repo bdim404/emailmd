@@ -256,38 +256,88 @@ Acme Inc. | 123 Main St, San Francisco, CA 94102 | [Unsubscribe](https://example
 `,
   },
   {
-    id: "event-invitation",
-    title: "Event Invitation",
-    category: "Events",
+    id: "review-roundup",
+    title: "Review Roundup",
+    category: "Marketing",
     author: "Email.md",
+    image: "https://imgs.emailmd.dev/ss/reviews.png",
     markdown: `---
-preheader: "You're invited!"
+preheader: "Our customers said WHAT?"
+background_color: "#F2D5EA"
+content_color: "#F2D5EA"
+heading_color: "#1a1a1a"
+body_color: "#3d3d3d"
+brand_color: "#1a1a1a"
+button_color: "#1a1a1a"
+button_text_color: "#F2D5EA"
+card_color: "#ffffff"
 ---
 
 ::: header
-![Logo](https://imgs.emailmd.dev/logoipsum-336.png){width="200"}
+![Chunk](https://imgs.emailmd.dev/chunk_logo.png){width="150"}
 :::
 
-# You're Invited!
+# :star: Proudly overrated :star:
 
-Join us for **Acme Conf 2025** — a full day of talks, workshops, and networking with the best in the industry.
+Let's address the elephant in the room. Someone named Derek left us a 5-star review calling our Peanut Crunch bar ==life-changing.==
 
-- **Date:** March 15, 2025
-- **Time:** 9:00 AM – 5:00 PM PST
-- **Location:** Moscone Center, San Francisco
+**Derek. It's a protein bar.** We appreciate the enthusiasm, but let's keep expectations realistic.
 
-## What to Expect
+![Protein bars](https://imgs.emailmd.dev/chunk_bars.jpg){width="600"}
 
-Keynotes from industry leaders, hands-on workshops, and a chance to connect with the Acme community in person.
+::: centered
+That said, we looked into it, and Derek might be onto something.
+:::
 
-[RSVP Now](https://example.com/events/acme-conf-2025){button}
+> **"tastes like a candy bar but healthy"**
+
+No it doesn't, Sarah. It tastes like oats, whey, and responsible decisions. But we're flattered.
+
+We would never claim to taste like candy. Candy doesn't have 22g of protein, and candy doesn't judge you for eating three.
+
+[SHOP RESPONSIBLE DECISIONS](https://example.com/shop){button}
+
+::: centered
+Now that we've set the record straight, here are some *less* dramatic reviews:
+:::
 
 ::: callout
-**Early bird pricing** ends February 28. Don't miss out!
+:star: :star: :star: :star: :star:
+
+"Bought these for my gym bag. They never made it to the gym."
+
+— **Marcus**
+:::
+
+::: callout
+:star: :star: :star: :star: :star:
+
+"My kids think it's dessert. I'm not correcting them."
+
+— **Priya**
+:::
+
+::: callout
+:star:
+
+"When are you going to stop sending emails and make a maple flavor?"
+
+— **My Mom**
+:::
+
+[TRY CHUNK](https://example.com/shop){button}
+
+::: highlight center
+Keep your eyes peeled for **Maple Crunch**, coming next month. Yes, Mom. We listened.
 :::
 
 ::: footer
-Acme Inc. | 123 Main St, San Francisco, CA 94102 | [Unsubscribe](https://example.com/unsub)
+**CHUNK CO.**
+Unreasonably good protein bars.
+
+(c) 2026 Chunk Co. · 18 Granola Way · Austin, TX 78701
+
+[Too many emails? Snooze for 2 weeks.](https://example.com/snooze) · [Unsubscribe](https://example.com/unsub)
 :::
 `,
   },
