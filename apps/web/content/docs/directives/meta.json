@@ -1,0 +1,12 @@
+{
+  "title": "Directives",
+  "pages": [
+    "index",
+    "header",
+    "hero",
+    "callout",
+    "highlight",
+    "centered",
+    "footer"
+  ]
+}

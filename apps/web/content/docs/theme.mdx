@@ -1,0 +1,53 @@
+---
+title: Theme
+description: Customize colors and fonts to match your brand.
+---
+
+Customize colors and fonts to match your brand:
+
+```typescript
+const { html } = render(markdown, {
+  theme: {
+    brandColor: '#e11d48',
+    buttonColor: '#e11d48',
+    fontFamily: 'Georgia, serif',
+  }
+});
+```
+
+## Dark Mode
+
+A built-in dark theme is available. Pass it directly to flip all colors at once:
+
+```typescript
+import { render, darkTheme } from 'emailmd';
+
+const { html } = render(markdown, { theme: darkTheme });
+```
+
+Or use it as a base and override individual values:
+
+```typescript
+const { html } = render(markdown, {
+  theme: { ...darkTheme, brandColor: '#e11d48' },
+});
+```
+
+You can also activate it per-email via frontmatter — see [Frontmatter](/docs/frontmatter).
+
+## All Theme Options
+
+| Key | Default | Description |
+|-----|---------|-------------|
+| `brandColor` | `#5B4FE9` | Links, highlights |
+| `headingColor` | `#111827` | Heading text |
+| `bodyColor` | `#374151` | Body text |
+| `backgroundColor` | `#f4f4f5` | Outer background |
+| `contentColor` | `#ffffff` | Content area background |
+| `cardColor` | `#f3f4f6` | Callout background |
+| `buttonColor` | `#5B4FE9` | Primary button |
+| `buttonTextColor` | `#ffffff` | Button text |
+| `fontFamily` | Helvetica Neue, ... | Font stack |
+| `fontSize` | `16px` | Base font size |
+| `lineHeight` | `1.6` | Base line height |
+| `contentWidth` | `600px` | Email width |

@@ -1,0 +1,58 @@
+---
+title: Getting Started
+description: Install emailmd and render your first email.
+---
+
+## Installation
+
+```bash
+npm install emailmd
+```
+
+## Basic Usage
+
+Import the `render` function and pass it a markdown string:
+
+```typescript
+import { render } from 'emailmd';
+
+const { html, text } = render(`
+# Welcome!
+
+Thanks for signing up.
+
+[Get Started](https://example.com){button}
+`);
+```
+
+The `render` function returns:
+
+- `html` — complete email-safe HTML document
+- `text` — plain text version for the `text/plain` MIME part
+- `meta` — extracted frontmatter metadata
+
+## Sending the Email
+
+Use the `html` and `text` outputs with any email sending service:
+
+```typescript
+import { render } from 'emailmd';
+
+const { html, text } = render(markdown);
+
+// Use with your email service (Nodemailer, SendGrid, Resend, etc.)
+await sendEmail({
+  to: 'user@example.com',
+  subject: 'Welcome!',
+  html,
+  text,
+});
+```
+
+## Next Steps
+
+- [Theme](/docs/theme) — Customize colors and fonts
+- [Frontmatter](/docs/frontmatter) — Set metadata per-email
+- [Buttons](/docs/buttons) — Add call-to-action buttons
+- [Directives](/docs/directives) — Use header, hero, callout, and more
+- [API Reference](/docs/api-reference) — Full API documentation

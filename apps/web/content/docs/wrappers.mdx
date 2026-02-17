@@ -1,0 +1,27 @@
+---
+title: Wrappers
+description: Customize the outer email structure with custom wrappers.
+---
+
+The default wrapper provides a gray outer background with a white content area. You can supply a custom wrapper to fully control the email's outer structure:
+
+```typescript
+import { render, buildHead, segmentsToMjml } from 'emailmd';
+import type { WrapperFn } from 'emailmd';
+
+const myWrapper: WrapperFn = (segments, theme, meta) => {
+  const head = buildHead(theme, meta?.preheader);
+  const body = segmentsToMjml(segments, theme);
+  return `<mjml>${head}<mj-body>${body}</mj-body></mjml>`;
+};
+
+render(md, { wrapper: myWrapper });
+```
+
+The wrapper function receives:
+
+- `segments` — parsed content segments from the markdown
+- `theme` — the resolved theme object
+- `meta` — extracted frontmatter metadata
+
+You have full control over the MJML structure, including the head (where styles and preheader live) and body layout.

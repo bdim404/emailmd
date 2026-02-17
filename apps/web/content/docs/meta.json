@@ -1,0 +1,18 @@
+{
+  "title": "Documentation",
+  "pages": [
+    "---Getting Started---",
+    "index",
+    "getting-started",
+    "---Features---",
+    "theme",
+    "frontmatter",
+    "buttons",
+    "images",
+    "tables",
+    "directives",
+    "---Advanced---",
+    "wrappers",
+    "api-reference"
+  ]
+}

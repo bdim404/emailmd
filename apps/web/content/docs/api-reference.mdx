@@ -1,0 +1,84 @@
+---
+title: API Reference
+description: Complete API documentation for email.md.
+---
+
+## `render(markdown, options?)`
+
+Renders markdown to email-safe HTML.
+
+**Returns** `{ html, text, meta }`
+
+- `html` — complete HTML email document
+- `text` — plain text version for the `text/plain` MIME part
+- `meta` — extracted frontmatter metadata
+
+```typescript
+import { render } from "emailmd";
+
+const { html, text, meta } = render("# Hello");
+```
+
+## `RenderOptions`
+
+```typescript
+{
+  theme?: Partial<Theme>;
+  wrapper?: 'default' | WrapperFn;
+}
+```
+
+| Option    | Type                     | Description                   |
+| --------- | ------------------------ | ----------------------------- |
+| `theme`   | `Partial<Theme>`         | Override default theme values |
+| `wrapper` | `'default' \| WrapperFn` | Custom email wrapper function |
+
+## `RenderResult`
+
+```typescript
+{
+  html: string;
+  text: string;
+  meta: { preheader?: string; [key: string]: unknown };
+}
+```
+
+| Property | Type     | Description                       |
+| -------- | -------- | --------------------------------- |
+| `html`   | `string` | Complete email-safe HTML document |
+| `text`   | `string` | Plain text version                |
+| `meta`   | `object` | Extracted frontmatter metadata    |
+
+## `darkTheme`
+
+A pre-built dark theme object. Import and pass directly or spread with overrides:
+
+```typescript
+import { render, darkTheme } from "emailmd";
+
+// Use as-is
+render(md, { theme: darkTheme });
+
+// Override specific values
+render(md, { theme: { ...darkTheme, brandColor: "#e11d48" } });
+```
+
+## `buildHead(theme, preheader?)`
+
+Generates the MJML `<mj-head>` element. Used when building custom wrappers.
+
+## `segmentsToMjml(segments, theme)`
+
+Converts parsed content segments to MJML body elements. Used when building custom wrappers.
+
+## `WrapperFn`
+
+```typescript
+type WrapperFn = (
+  segments: Segment[],
+  theme: Theme,
+  meta?: Record<string, unknown>,
+) => string;
+```
+
+A function that receives parsed segments, the resolved theme, and frontmatter metadata, and returns a complete MJML string.
