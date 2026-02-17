@@ -63,10 +63,11 @@ function renderCalloutSegment(segment: Segment, theme: Theme): string {
     </mj-section>`;
 }
 
-function renderCenteredSegment(content: string, theme: Theme): string {
+function renderCenteredSegment(segment: Segment, theme: Theme): string {
+  const textColor = segment.attrs?.color || theme.bodyColor;
   return `<mj-section background-color="${theme.contentColor}" padding="8px 32px">
       <mj-column>
-        <mj-text align="center" font-size="${theme.fontSize}" color="${theme.bodyColor}">${content}</mj-text>
+        <mj-text align="center" font-size="${theme.fontSize}" color="${textColor}">${segment.content}</mj-text>
       </mj-column>
     </mj-section>`;
 }
@@ -246,7 +247,7 @@ function segmentToMjml(segment: Segment, theme: Theme): string {
     case 'callout':
       return renderCalloutSegment(segment, theme);
     case 'centered':
-      return renderCenteredSegment(segment.content, theme);
+      return renderCenteredSegment(segment, theme);
     case 'highlight':
       return renderHighlightSegment(segment, theme);
     case 'header':

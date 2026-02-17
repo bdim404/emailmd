@@ -1,6 +1,5 @@
 import {
   MARKER_CALLOUT_CLOSE,
-  MARKER_CENTERED_OPEN,
   MARKER_CENTERED_CLOSE,
   MARKER_HIGHLIGHT_CLOSE,
   MARKER_HEADER_CLOSE,
@@ -18,7 +17,7 @@ export function toPlainText(html: string): string {
   // Strip directive markers (parameterized directives use regex to handle optional attrs)
   text = text.replace(/<!--EMAILMD:CALLOUT_OPEN(?:\s+[\w-]+="[^"]*")*-->/g, '');
   text = text.replace(new RegExp(escapeRegExp(MARKER_CALLOUT_CLOSE), 'g'), '');
-  text = text.replace(new RegExp(escapeRegExp(MARKER_CENTERED_OPEN), 'g'), '');
+  text = text.replace(/<!--EMAILMD:CENTERED_OPEN(?:\s+[\w-]+="[^"]*")*-->/g, '');
   text = text.replace(new RegExp(escapeRegExp(MARKER_CENTERED_CLOSE), 'g'), '');
   text = text.replace(/<!--EMAILMD:HIGHLIGHT_OPEN(?:\s+[\w-]+="[^"]*")*-->/g, '');
   text = text.replace(new RegExp(escapeRegExp(MARKER_HIGHLIGHT_CLOSE), 'g'), '');

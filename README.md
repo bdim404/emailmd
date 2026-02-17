@@ -198,7 +198,7 @@ Limited time offer!
 |-----------|--------|--------|------------|
 | **align** | Bare keyword | `center`, `left`, `right` | callout, highlight, header, footer |
 | **padding** | Bare keyword | `compact`, `spacious` | callout, highlight |
-| **color** | `color=<hex>` | Any hex color | callout, highlight, header, footer |
+| **color** | `color=<hex>` | Any hex color | callout, highlight, centered, header, footer |
 | **bg** | `bg=<hex>` | Any hex color | callout, highlight |
 
 ## Buttons

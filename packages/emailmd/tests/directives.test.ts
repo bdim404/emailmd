@@ -31,6 +31,19 @@ describe('centered directive', () => {
     expect(html).toContain('Centered content');
     expect(html).toContain('text-align:center');
   });
+
+  it('renders custom text color on centered', () => {
+    const { html } = render('::: centered color=#00F7A4\nGreen text\n:::');
+    expect(html).toContain('Green text');
+    expect(html).toContain('#00F7A4');
+  });
+
+  it('strips parameterized centered markers in plain text', () => {
+    const { text } = render('::: centered color=#00F7A4\nCentered text\n:::');
+    expect(text).toContain('Centered text');
+    expect(text).not.toContain('EMAILMD');
+    expect(text).not.toContain('00F7A4');
+  });
 });
 
 describe('hero directive', () => {

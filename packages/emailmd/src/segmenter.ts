@@ -1,6 +1,5 @@
 import {
   MARKER_CALLOUT_CLOSE,
-  MARKER_CENTERED_OPEN,
   MARKER_CENTERED_CLOSE,
   MARKER_HIGHLIGHT_CLOSE,
   MARKER_HEADER_CLOSE,
@@ -18,7 +17,6 @@ export interface Segment {
 }
 
 const DIRECTIVE_PAIRS: Array<{ open: string; close: string; type: SegmentType }> = [
-  { open: MARKER_CENTERED_OPEN, close: MARKER_CENTERED_CLOSE, type: 'centered' },
 ];
 
 const PARAMETERIZED_DIRECTIVES: Array<{
@@ -27,6 +25,7 @@ const PARAMETERIZED_DIRECTIVES: Array<{
   close: string;
 }> = [
   { re: /<!--EMAILMD:CALLOUT_OPEN((?:\s+[\w-]+="[^"]*")*)-->/, type: 'callout', close: MARKER_CALLOUT_CLOSE },
+  { re: /<!--EMAILMD:CENTERED_OPEN((?:\s+[\w-]+="[^"]*")*)-->/, type: 'centered', close: MARKER_CENTERED_CLOSE },
   { re: /<!--EMAILMD:HIGHLIGHT_OPEN((?:\s+[\w-]+="[^"]*")*)-->/, type: 'highlight', close: MARKER_HIGHLIGHT_CLOSE },
   { re: /<!--EMAILMD:HEADER_OPEN((?:\s+[\w-]+="[^"]*")*)-->/, type: 'header', close: MARKER_HEADER_CLOSE },
   { re: /<!--EMAILMD:FOOTER_OPEN((?:\s+[\w-]+="[^"]*")*)-->/, type: 'footer', close: MARKER_FOOTER_CLOSE },
