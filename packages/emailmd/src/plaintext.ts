@@ -49,9 +49,9 @@ export function toPlainText(html: string): string {
     return results.join('\n') + '\n';
   });
 
-  // Convert headings to UPPERCASE
+  // Convert headings to UPPERCASE (preserving template token case)
   text = text.replace(/<h[1-6][^>]*>(.*?)<\/h[1-6]>/gi, (_, content) => {
-    return `\n${stripTags(content).toUpperCase()}\n`;
+    return `\n${toUpperCasePreserveTokens(stripTags(content))}\n`;
   });
 
   // Convert images to [Image: alt]
@@ -286,4 +286,17 @@ function stripTags(html: string): string {
 
 function escapeRegExp(s: string): string {
   return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+/** Matches common template token delimiters: {{...}}, {%...%}, <%...%>, ${...}, %%...%% */
+const TEMPLATE_TOKEN_RE = /(\{\{[\s\S]*?\}\}|\{%[\s\S]*?%\}|&lt;%[\s\S]*?%&gt;|<%[\s\S]*?%>|\$\{[\s\S]*?\}|%%[\s\S]*?%%)/g;
+
+function toUpperCasePreserveTokens(str: string): string {
+  const parts = str.split(TEMPLATE_TOKEN_RE);
+  for (let i = 0; i < parts.length; i++) {
+    if (i % 2 === 0) {
+      parts[i] = parts[i].toUpperCase();
+    }
+  }
+  return parts.join('');
 }

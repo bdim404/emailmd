@@ -13,6 +13,30 @@ describe('plain text output', () => {
     expect(text).toContain('WELCOME BACK');
   });
 
+  it('preserves Handlebars/Mustache token case in headings', () => {
+    const { text } = render('# Hello {{user_name}}');
+    expect(text).toContain('HELLO {{user_name}}');
+    expect(text).not.toContain('{{USER_NAME}}');
+  });
+
+  it('preserves ERB/EJS token case in headings', () => {
+    const { text } = render('# Order <%= order_id %>');
+    expect(text).toContain('ORDER');
+    expect(text).toContain('order_id');
+    expect(text).not.toContain('ORDER_ID');
+  });
+
+  it('preserves double-percent tokens in headings', () => {
+    const { text } = render('# Status: %%account_status%%');
+    expect(text).toContain('STATUS: %%account_status%%');
+  });
+
+  it('preserves multiple tokens in a single heading', () => {
+    const { text } = render('# {{greeting}}, {{user_name}}!');
+    expect(text).toContain('{{greeting}}');
+    expect(text).toContain('{{user_name}}');
+  });
+
   it('preserves paragraph content', () => {
     const { text } = render('This is a paragraph.');
     expect(text).toContain('This is a paragraph.');
