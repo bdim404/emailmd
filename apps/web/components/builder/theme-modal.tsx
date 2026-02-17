@@ -1,9 +1,11 @@
 "use client";
 
 import { lightTheme, darkTheme, type Theme } from "emailmd";
+import { HexColorPicker } from "react-colorful";
 import { Paintbrush, X, ChevronsUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -221,17 +223,17 @@ function ColorField({
     <div className="flex flex-col gap-1.5">
       <Label className="text-xs text-muted-foreground">{label}</Label>
       <div className="flex items-center gap-1.5">
-        <label
-          className="size-8 shrink-0 rounded-md border border-input cursor-pointer"
-          style={{ backgroundColor: displayValue }}
-        >
-          <input
-            type="color"
-            value={displayValue}
-            onChange={(e) => onSet(e.target.value)}
-            className="sr-only"
-          />
-        </label>
+        <Popover>
+          <PopoverTrigger asChild>
+            <button
+              className="size-8 shrink-0 rounded-md border border-input cursor-pointer"
+              style={{ backgroundColor: displayValue }}
+            />
+          </PopoverTrigger>
+          <PopoverContent side="bottom" align="start" className="w-auto p-3">
+            <HexColorPicker color={displayValue} onChange={onSet} />
+          </PopoverContent>
+        </Popover>
         <Input
           value={displayValue}
           onChange={(e) => {
@@ -243,7 +245,6 @@ function ColorField({
           onBlur={(e) => {
             const v = e.target.value;
             if (!/^#[0-9a-fA-F]{6}$/.test(v)) {
-              // Revert to previous valid value
               onSet(displayValue);
             }
           }}
