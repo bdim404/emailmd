@@ -43,9 +43,16 @@ Email.md is just markdown, so AI is great at writing templates. Feed the full do
 https://www.emailmd.dev/llms-full.txt
 ```
 
-## Built on MJML
+## Contributing
 
-Powered by [MJML](https://mjml.io) under the hood.
+Contributions are welcome! Feel free to open an [issue](https://github.com/unmta/emailmd/issues) or submit a [pull request](https://github.com/unmta/emailmd/pulls).
+
+> Email.md is under active development. The API may change between minor versions until we hit 1.0.
+
+## Acknowledgements
+
+- Built with [MJML](https://mjml.io) under the hood
+- Sponsored by [unMTA](https://www.unmta.com)
 
 ## License
 
