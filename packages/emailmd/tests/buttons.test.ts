@@ -115,3 +115,82 @@ describe('full-width buttons', () => {
     expect(text).toContain('Get Started: https://example.com');
   });
 });
+
+describe('semantic button colors', () => {
+  it('renders {button.success} with green background', () => {
+    const { html } = render('[Confirm](https://example.com){button.success}');
+    expect(html).toContain('Confirm');
+    expect(html).toContain('#16a34a');
+  });
+
+  it('renders {button.danger} with red background', () => {
+    const { html } = render('[Delete](https://example.com){button.danger}');
+    expect(html).toContain('Delete');
+    expect(html).toContain('#dc2626');
+  });
+
+  it('renders {button.warning} with amber background', () => {
+    const { html } = render('[Caution](https://example.com){button.warning}');
+    expect(html).toContain('Caution');
+    expect(html).toContain('#d97706');
+  });
+
+  it('renders semantic colors in button groups', () => {
+    const { html } = render('[Confirm](https://a.com){button.success} [Delete](https://b.com){button.danger}');
+    expect(html).toContain('#16a34a');
+    expect(html).toContain('#dc2626');
+  });
+
+  it('produces plain text for semantic buttons', () => {
+    const { text } = render('[Confirm](https://example.com){button.success}');
+    expect(text).toContain('Confirm: https://example.com');
+  });
+});
+
+describe('button fallback', () => {
+  it('renders fallback subcopy text below a button', () => {
+    const { html } = render('[Reset Password](https://example.com/reset){button fallback}');
+    expect(html).toContain('trouble clicking');
+    expect(html).toContain('https://example.com/reset');
+    expect(html).toContain('Reset Password');
+  });
+
+  it('does not render fallback when attribute is absent', () => {
+    const { html } = render('[Click](https://example.com){button}');
+    expect(html).not.toContain('trouble clicking');
+  });
+
+  it('renders fallback only for opted-in buttons in a group', () => {
+    const { html } = render('[Accept](https://example.com/accept){button fallback} [Decline](https://example.com/decline){button.secondary}');
+    expect(html).toContain('trouble clicking');
+    expect(html).toContain('https://example.com/accept');
+    // Decline URL should not appear in fallback text (only in button itself)
+    const fallbackSection = html.split('trouble clicking')[1];
+    expect(fallbackSection).not.toContain('https://example.com/decline');
+  });
+
+  it('renders fallback for all opted-in buttons in a group', () => {
+    const { html } = render('[A](https://a.com){button fallback} [B](https://b.com){button.secondary fallback}');
+    expect(html).toContain('trouble clicking');
+    expect(html).toContain('https://a.com');
+    expect(html).toContain('https://b.com');
+  });
+
+  it('works with semantic color buttons', () => {
+    const { html } = render('[Confirm](https://example.com/confirm){button.success fallback}');
+    expect(html).toContain('#16a34a');
+    expect(html).toContain('trouble clicking');
+    expect(html).toContain('https://example.com/confirm');
+  });
+
+  it('works with secondary buttons', () => {
+    const { html } = render('[Learn More](https://example.com){button.secondary fallback}');
+    expect(html).toContain('transparent');
+    expect(html).toContain('trouble clicking');
+  });
+
+  it('plain text is unchanged for fallback buttons', () => {
+    const { text } = render('[Reset](https://example.com/reset){button fallback}');
+    expect(text).toContain('Reset: https://example.com/reset');
+  });
+});

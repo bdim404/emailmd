@@ -145,59 +145,63 @@ function renderHrSegment(theme: Theme): string {
     </mj-section>`;
 }
 
-function renderButtonSegment(segment: Segment, theme: Theme): string {
-  const attrs = segment.attrs!;
-  const isSecondary = attrs.variant === 'secondary';
-  const customColor = attrs.color;
-  const isFullWidth = attrs.width === 'full';
+const SEMANTIC_COLORS: Record<string, { bg: string; text: string }> = {
+  success: { bg: '#16a34a', text: '#ffffff' },
+  danger:  { bg: '#dc2626', text: '#ffffff' },
+  warning: { bg: '#d97706', text: '#ffffff' },
+};
 
-  let bgColor: string;
-  let textColor: string;
-  let border = '';
+function resolveButtonColors(attrs: Record<string, string>, theme: Theme): { bgColor: string; textColor: string; border: string } {
+  const customColor = attrs.color;
+  const semantic = attrs.variant && SEMANTIC_COLORS[attrs.variant];
 
   if (customColor) {
-    bgColor = customColor;
-    textColor = '#ffffff';
-  } else if (isSecondary) {
-    bgColor = 'transparent';
-    textColor = theme.buttonColor;
-    border = `border="2px solid ${theme.buttonColor}"`;
+    return { bgColor: customColor, textColor: '#ffffff', border: '' };
+  } else if (semantic) {
+    return { bgColor: semantic.bg, textColor: semantic.text, border: '' };
+  } else if (attrs.variant === 'secondary') {
+    return { bgColor: 'transparent', textColor: theme.buttonColor, border: `border="2px solid ${theme.buttonColor}"` };
   } else {
-    bgColor = theme.buttonColor;
-    textColor = theme.buttonTextColor;
+    return { bgColor: theme.buttonColor, textColor: theme.buttonTextColor, border: '' };
   }
+}
 
-  const widthAttr = isFullWidth ? ' width="100%"' : '';
+function renderButtonFallback(buttons: Array<Record<string, string>>, theme: Theme): string {
+  const fallbackButtons = buttons.filter(b => b.fallback);
+  if (fallbackButtons.length === 0) return '';
 
-  return `<mj-section background-color="${theme.contentColor}" padding="8px 32px">
+  const lines = fallbackButtons.map(b =>
+    `If you're having trouble clicking the &ldquo;${b.text}&rdquo; button, copy and paste this URL into your browser: <a href="${b.href}" style="color: ${theme.bodyColor}; word-break: break-all;">${b.href}</a>`
+  );
+
+  return `<mj-section background-color="${theme.contentColor}" padding="0 32px">
       <mj-column>
-        <mj-button background-color="${bgColor}" color="${textColor}" font-size="16px" font-weight="600" border-radius="8px" inner-padding="14px 32px"${widthAttr} ${border} href="${attrs.href}">${attrs.text}</mj-button>
+        <mj-text font-size="12px" color="${theme.bodyColor}" line-height="1.4" align="center" padding="4px 0 8px 0">${lines.join('<br><br>')}</mj-text>
       </mj-column>
     </mj-section>`;
 }
 
+function renderButtonSegment(segment: Segment, theme: Theme): string {
+  const attrs = segment.attrs!;
+  const { bgColor, textColor, border } = resolveButtonColors(attrs, theme);
+  const isFullWidth = attrs.width === 'full';
+  const widthAttr = isFullWidth ? ' width="100%"' : '';
+
+  let mjml = `<mj-section background-color="${theme.contentColor}" padding="8px 32px">
+      <mj-column>
+        <mj-button background-color="${bgColor}" color="${textColor}" font-size="16px" font-weight="600" border-radius="8px" inner-padding="14px 32px"${widthAttr} ${border} href="${attrs.href}">${attrs.text}</mj-button>
+      </mj-column>
+    </mj-section>`;
+
+  mjml += renderButtonFallback([attrs], theme);
+
+  return mjml;
+}
+
 function renderButtonGroupSegment(segment: Segment, theme: Theme): string {
   const columns = segment.buttons!.map(attrs => {
-    const isSecondary = attrs.variant === 'secondary';
-    const customColor = attrs.color;
+    const { bgColor, textColor, border } = resolveButtonColors(attrs, theme);
     const isFullWidth = attrs.width === 'full';
-
-    let bgColor: string;
-    let textColor: string;
-    let border = '';
-
-    if (customColor) {
-      bgColor = customColor;
-      textColor = '#ffffff';
-    } else if (isSecondary) {
-      bgColor = 'transparent';
-      textColor = theme.buttonColor;
-      border = `border="2px solid ${theme.buttonColor}"`;
-    } else {
-      bgColor = theme.buttonColor;
-      textColor = theme.buttonTextColor;
-    }
-
     const widthAttr = isFullWidth ? ' width="100%"' : '';
 
     return `<mj-column>
@@ -205,9 +209,13 @@ function renderButtonGroupSegment(segment: Segment, theme: Theme): string {
       </mj-column>`;
   }).join('\n      ');
 
-  return `<mj-section background-color="${theme.contentColor}" padding="8px 32px">
+  let mjml = `<mj-section background-color="${theme.contentColor}" padding="8px 32px">
       ${columns}
     </mj-section>`;
+
+  mjml += renderButtonFallback(segment.buttons!, theme);
+
+  return mjml;
 }
 
 function renderImageSegment(segment: Segment, theme: Theme): string {

@@ -342,6 +342,36 @@ export function EditorToolbar({
             >
               Side-by-Side Buttons
             </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() =>
+                block(
+                  "[Button Text](https://example.com){button.success}",
+                  "Button Text"
+                )
+              }
+            >
+              Success Button
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() =>
+                block(
+                  "[Button Text](https://example.com){button.danger}",
+                  "Button Text"
+                )
+              }
+            >
+              Danger Button
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() =>
+                block(
+                  "[Button Text](https://example.com){button.warning}",
+                  "Button Text"
+                )
+              }
+            >
+              Warning Button
+            </DropdownMenuItem>
           </ToolbarDropdown>
 
           <Separator orientation="vertical" className="mx-0.5 h-4!" />

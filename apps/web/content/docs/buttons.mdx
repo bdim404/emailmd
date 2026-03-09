@@ -13,6 +13,20 @@ Add call-to-action buttons using the `{button}` attribute:
 [Shop Sale](https://example.com){button color="#dc2626"}
 ```
 
+## Semantic Colors
+
+Use preset color names for common actions:
+
+```markdown
+[Confirm Account](https://example.com/confirm){button.success}
+
+[Delete Account](https://example.com/delete){button.danger}
+
+[Review Changes](https://example.com/review){button.warning}
+```
+
+These use hardcoded colors (green, red, amber) that always look semantically correct regardless of theme.
+
 ## Side-by-Side Buttons
 
 Place multiple buttons on the same line to render them side-by-side:
@@ -37,4 +51,20 @@ This works with any variant or custom color:
 [Learn More](https://example.com){button.secondary width="full"}
 
 [Shop Sale](https://example.com){button color="#dc2626" width="full"}
+```
+
+## Button Fallback
+
+Add a fallback URL below a button for accessibility. Some email clients block or strip buttons, so providing the raw URL ensures recipients can still take action:
+
+```markdown
+[Reset Password](https://example.com/reset){button fallback}
+```
+
+This renders a small muted text below the button: *"If you're having trouble clicking the button, copy and paste this URL into your browser."*
+
+Works with button groups too — only buttons with `fallback` show their URL:
+
+```markdown
+[Accept](https://example.com/accept){button fallback} [Decline](https://example.com/decline){button.secondary}
 ```

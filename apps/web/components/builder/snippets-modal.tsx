@@ -77,6 +77,21 @@ Thanks for reading.
     content: `[Get Started](https://example.com){button} [Learn More](https://example.com){button.secondary}`,
   },
   {
+    label: "Success Button",
+    description: "Green button for confirmations",
+    content: `[Confirm](https://example.com){button.success}`,
+  },
+  {
+    label: "Danger Button",
+    description: "Red button for destructive actions",
+    content: `[Delete](https://example.com){button.danger}`,
+  },
+  {
+    label: "Button with Fallback",
+    description: "Button with fallback URL for accessibility",
+    content: `[Reset Password](https://example.com/reset){button fallback}`,
+  },
+  {
     label: "Image",
     description: "Responsive image with optional width",
     content: `![Banner](https://example.com/image.jpg){width="400"}`,

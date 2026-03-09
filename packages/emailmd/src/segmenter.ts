@@ -45,13 +45,14 @@ function parseMarkerAttrs(attrString: string): Record<string, string> {
 const BUTTON_PARA_RE = /<p>\s*((?:<a\s+[^>]*>[^<]*<\/a>\s*)+)<\/p>/g;
 const INNER_LINK_RE = /<a\s+([^>]*)>([^<]*)<\/a>/g;
 
-function parseButtonAttrs(attrString: string): { isButton: boolean; href: string; variant?: string; color?: string; width?: string } {
-  const result = { isButton: false, href: '', variant: undefined as string | undefined, color: undefined as string | undefined, width: undefined as string | undefined };
+function parseButtonAttrs(attrString: string): { isButton: boolean; href: string; variant?: string; color?: string; width?: string; fallback?: boolean } {
+  const result = { isButton: false, href: '', variant: undefined as string | undefined, color: undefined as string | undefined, width: undefined as string | undefined, fallback: undefined as boolean | undefined };
 
-  // Check for button attribute (button="" or button.secondary="")
-  if (/\bbutton\.secondary\b/.test(attrString)) {
+  // Check for button attribute with optional variant (secondary, success, danger, warning)
+  const variantMatch = attrString.match(/\bbutton\.(secondary|success|danger|warning)\b/);
+  if (variantMatch) {
     result.isButton = true;
-    result.variant = 'secondary';
+    result.variant = variantMatch[1];
   } else if (/\bbutton\b/.test(attrString)) {
     result.isButton = true;
   }
@@ -69,6 +70,9 @@ function parseButtonAttrs(attrString: string): { isButton: boolean; href: string
   // Extract width attribute (from {button width="full"})
   const widthMatch = attrString.match(/\bwidth="([^"]*)"/);
   if (widthMatch) result.width = widthMatch[1];
+
+  // Extract fallback attribute (from {button fallback})
+  if (/\bfallback\b/.test(attrString)) result.fallback = true;
 
   return result;
 }
@@ -95,6 +99,7 @@ function extractButtons(html: string): { html: string; buttons: Segment[] } {
       if (parsed.variant) attrs.variant = parsed.variant;
       if (parsed.color) attrs.color = parsed.color;
       if (parsed.width) attrs.width = parsed.width;
+      if (parsed.fallback) attrs.fallback = 'true';
       buttons.push({ type: 'button', content: text, attrs });
     } else {
       const groupButtons = links.map(({ parsed, text }) => {
@@ -102,6 +107,7 @@ function extractButtons(html: string): { html: string; buttons: Segment[] } {
         if (parsed.variant) attrs.variant = parsed.variant;
         if (parsed.color) attrs.color = parsed.color;
         if (parsed.width) attrs.width = parsed.width;
+        if (parsed.fallback) attrs.fallback = 'true';
         return attrs;
       });
       buttons.push({ type: 'button-group', content: '', buttons: groupButtons });
