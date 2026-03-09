@@ -26,6 +26,33 @@ describe('button syntax', () => {
     expect(html).toContain('#dc2626');
   });
 
+  it('renders button with mustache template tag in URL', () => {
+    const { html } = render('[View Domain]({{ url }}){button}');
+    expect(html).toContain('{{ url }}');
+    expect(html).toContain('View Domain');
+    expect(html).toContain('#18181b');
+  });
+
+  it('renders button with mustache template tag without spaces', () => {
+    const { html } = render('[View Domain]({{url}}){button}');
+    expect(html).toContain('{{url}}');
+    expect(html).toContain('View Domain');
+    expect(html).toContain('#18181b');
+  });
+
+  it('renders button with template tag in link text', () => {
+    const { html } = render('[{{ label }}](https://example.com){button}');
+    expect(html).toContain('{{ label }}');
+    expect(html).toContain('https://example.com');
+    expect(html).toContain('#18181b');
+  });
+
+  it('renders plain link with template tag in URL', () => {
+    const { html } = render('[View Domain]({{ url }})');
+    expect(html).toContain('href="{{ url }}"');
+    expect(html).toContain('View Domain');
+  });
+
   it('leaves plain links as regular <a> tags', () => {
     const { html } = render('[Normal link](https://example.com)');
     expect(html).toContain('href="https://example.com"');

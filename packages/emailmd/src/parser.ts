@@ -18,8 +18,30 @@ md.use(sub);
 md.use(sup);
 registerDirectives(md);
 
+// Matches template tags that should pass through markdown-it untouched.
+// Matches template tags that could break markdown-it link/URL parsing.
+// Excludes ERB/EJS (<% %>) since markdown-it HTML-encodes those safely.
+const TEMPLATE_TAG_RE = /(\{\{[\s\S]*?\}\}|\{%[\s\S]*?%\}|\$\{[\s\S]*?\}|%%[\s\S]*?%%)/g;
+
+function shieldTemplateTags(input: string): { text: string; tags: string[] } {
+  const tags: string[] = [];
+  const text = input.replace(TEMPLATE_TAG_RE, (match) => {
+    const idx = tags.length;
+    tags.push(match);
+    return `EMAILMDTPL${idx}ENDTPL`;
+  });
+  return { text, tags };
+}
+
+function restoreTemplateTags(html: string, tags: string[]): string {
+  if (tags.length === 0) return html;
+  return html.replace(/EMAILMDTPL(\d+)ENDTPL/g, (_, idx) => tags[parseInt(idx, 10)] ?? _);
+}
+
 export function parseMarkdown(markdown: string): string {
-  let html = md.render(markdown);
+  const { text: shielded, tags } = shieldTemplateTags(markdown);
+  let html = md.render(shielded);
+  html = restoreTemplateTags(html, tags);
 
   // Replace <input> checkboxes with Unicode characters for email safety
   // (email clients strip <input> elements)
