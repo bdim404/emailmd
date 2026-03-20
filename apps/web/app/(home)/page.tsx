@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { CopyButton } from "@/components/builder/copy-button";
 
+
 const btnClass =
   "inline-flex h-9 items-center justify-center rounded-lg border border-border bg-background px-4 text-sm font-medium transition-colors hover:bg-muted";
 
@@ -42,7 +43,10 @@ export default function Page() {
           </h1>
           <p className="mx-auto max-w-xl text-lg text-muted-foreground">
             Write markdown. Ship emails. No{" "}
-            <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-foreground">HTMHELL</code>.
+            <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-foreground">
+              HTMHELL
+            </code>
+            .
           </p>
           <NavButtons />
         </div>
@@ -102,28 +106,6 @@ export default function Page() {
         <NavButtons />
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-border py-8 text-center text-sm text-muted-foreground">
-        <div className="container mx-auto max-w-5xl px-4">
-          Built by{" "}
-          <a
-            href="https://www.unmta.com/"
-            target="_blank"
-            className="underline underline-offset-4 hover:text-foreground"
-          >
-            unMTA
-          </a>
-          . The source code is available on{" "}
-          <a
-            href="https://github.com/unmta/emailmd"
-            target="_blank"
-            className="underline underline-offset-4 hover:text-foreground"
-          >
-            GitHub
-          </a>
-          .
-        </div>
-      </footer>
     </main>
   );
 }
