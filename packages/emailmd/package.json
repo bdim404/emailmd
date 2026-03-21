@@ -1,6 +1,6 @@
 {
   "name": "emailmd",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Turn markdown into responsive, email-safe HTML that renders perfectly across every client.",
   "keywords": [
     "email",
@@ -43,6 +43,7 @@
     "node": ">=18"
   },
   "scripts": {
+    "prepublishOnly": "cp ../../README.md .",
     "build": "tsup",
     "test": "vitest run",
     "test:watch": "vitest"
